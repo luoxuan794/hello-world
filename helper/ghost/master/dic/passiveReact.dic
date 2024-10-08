@@ -1,0 +1,205 @@
+﻿//鼠标移动事件
+//reference0：鼠標指針的X座標
+//reference1：鼠標指針的Y座標
+//reference2：鼠標指針的回轉方向（？）
+//reference3 ：主人格端/使魔端（用0/1表示）
+//reference4 ：觸摸判定區域的名字
+
+//抚摸处理
+OnMouseMove
+{
+	//根据reference3判断Sakura端或Kero端
+	if reference3 == 0
+	{
+		//Sakura端抚摸
+		MouseMoveSakura
+	}
+	else
+	{
+		//Kero端抚摸
+		MouseMoveKero
+	}
+}
+
+
+
+
+//Sakura端抚摸反应
+MouseMoveSakura
+{
+	if touchname1==reference4{
+		stroke++ //积累抚摸值
+	}
+	else{
+		stroke=0
+		touchname1=reference4
+	}
+	if stroke >= 100 //抚摸值达到一定量时
+	{
+		if angrymode==1{
+			"\0\s[2]快去睡觉！\e"
+		}
+		elseif reference4 == "head" //抚摸区域为head
+		{
+			"\0\s[5]嗯~好哦~\e"
+		}elseif  "eye" _in_ reference4
+		{
+			"\0\s[4]嗯？好怪？\e"
+		}elseif sleepflag>sleepflagtimes{
+			"\0\s[6]啊，我刚才睡着了？\n\_w[500]\s[1]谢谢你叫醒我。\e"
+			sleepflag=0
+		}
+		
+		stroke = 0 //抚摸值清零
+	}
+}
+
+//Kero端抚摸反应
+MouseMoveKero
+{
+}
+
+//鼠标双击事件
+//reference0：鼠標指針的x座標
+//reference1：鼠標指針的y座標
+//reference2：永遠是0。（大概是爲了和鼠標移動對稱吧……
+//reference3：主人格是0，使魔是1。
+//reference4：判定區域的名字。
+//reference5：左鍵0，右鍵1，鼠標滾輪/中鍵2。
+
+OnMouseDoubleClick
+{
+	//---- 根據reference3判定是本体側還是kero側
+	if reference3 == 0
+	{
+		//---- 本体側的雙擊
+		MouseDoubleClickSakura
+	}
+	else
+	{
+		//---- kero側的雙擊
+		MouseDoubleClickKero
+	}
+}
+
+//Sakura端双击反应
+MouseDoubleClickSakura
+{
+	
+	if reference4 == "head"
+	{
+		"\0\s[1]是软的哦\e"
+	}
+	if  "eye" _in_ reference4
+	{
+		"\0\s[3]眼睛好疼！\n\n\![*]\q[对不起,sorryevent]\w[3000]\s[0]\e"
+	}
+	if reference4 ==""{
+		if angrymode==1{
+			"\0\s[3]helper不想打开菜单，helper想%(username)快点去睡觉。\e"
+		}else{
+			OpenMenu()
+		}
+
+	}
+}
+
+Choice.sorryevent{
+	"\0\s[3]没关系，会疼证明helper是活的。\e"
+}
+
+//Kero端双击反应
+MouseDoubleClickKero
+{
+}
+
+
+//鼠标拖拽开始
+//reference3：拖拽的對象是主人格0，使魔1
+//reference4：鼠標所在判定區
+//reference5：左鍵0，右鍵1
+
+OnMouseDragStart
+{
+	if reference3==0{
+		draga=1
+	}
+}
+
+
+//鼠标拖拽结束
+//reference3：拖拽的對象是主人格0，使魔1
+//reference4：鼠標所在判定區
+//reference5：左鍵0，右鍵1
+
+OnMouseDragEnd
+{
+	
+	if menuflag==0{
+		if reference3==0{
+			dragb=1
+			if sleepflag>sleepflagtimes{
+				"\0\s[0]嗯，动一下，helper会清醒一些。\e"
+			}
+			elseif draga && dragb{
+				"\0\s[4]嗯？来这边？\e"
+				"\0\s[4]在这边可以吗？\e"
+			}
+			draga=0
+			dragb=0
+	}
+	}
+}
+
+//鼠标静止时
+//reference0，reference1：鼠标的x，y坐标
+//reference3：本体为1，副人格为0
+//reference4：判定区
+OnMouseHover{
+
+
+}
+
+//键盘反应
+//reference0：按下的鍵。
+//剩下的reference因為不常用所以這裡省略了。
+OnKeyPress
+{
+}
+
+//替换shell事件
+OnShellChanging
+{
+	oldshell.name = shell.name //记录现在的shell名称
+	shell.name = "%(reference0)" //读取目标shell名称
+	if oldshell.name == shell.name //当目标shell与当前shell相同时
+	{
+	"\0\s[0]重新载入当前形象。\e"
+	}
+	else //当目标shell与当前shell不同时
+	{
+	"\0\s[0]准备切换为%(shell.name)形象。\e"
+	}
+}
+
+//shell替换结束
+OnShellChanged
+{
+	if oldshell.name == shell.name
+	{
+	"\0\s[0]形象重新载入完毕。\e"
+	}
+	else
+	{
+	"\0\s[0]%(shell.name)形象载入完毕。\e"
+	}
+}
+
+//换装反应
+//reference0：0是主人格，1是使魔
+//reference1：衣物的名字（不包含分類）
+//reference2：1是穿，2是脫
+OnDressupChanged
+{
+}
+

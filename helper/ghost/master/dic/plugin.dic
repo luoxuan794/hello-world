@@ -1,0 +1,139 @@
+//weather Station 在plugin夹里
+OnWeatherStation.Weather{
+
+	weathercode0=reference0
+	weathercode3=reference3
+	weathercode5=reference5
+	weathercode6=reference7
+	weathercode8=reference8
+	weathercode18=reference18
+	weathercode19=reference19
+	weathercode20=reference20
+	weathercode21=reference21
+	weathercode31=reference31
+	weathercode36=reference36
+	weathercode38=reference38
+	天气报告()
+}
+
+天气报告{
+	//中文转换
+	case  weathercode0{
+		when "Sunny"{ weathertxt0="晴(Sunny)"}
+		when "Clear"{ weathertxt0="晴(Clear)"}
+		when "Partly cloudy"{ weathertxt0="局部多云(Partly cloudy)"}
+		when "Cloudy"{ weathertxt0="多云(Cloudy)"}
+		when "Overcast"{ weathertxt0="阴(Overcast)"}
+		when "Mist"{ weathertxt0="薄雾(Mist)"}
+		when "Patchy rain possible"{ weathertxt0="局部阵雨(Patchy rain possible)"}
+		when "Patchy snow possible"{ weathertxt0="局部阵雪(Patchy snow possible)"}
+		when "Patchy sleet possible"{ weathertxt0="局部雨夹雪(Patchy sleet possible)"}
+		when "Patchy freezing drizzle possible"{ weathertxt0="局部冻毛毛雨(Patchy freezing drizzle possible)"}
+		when "Thundery outbreaks possible"{ weathertxt0="雷暴(Thundery outbreaks possible)"}
+		when "Blowing snow"{ weathertxt0="雪(Blowing snow)"}
+		when "Blizzard"{ weathertxt0="暴雪(Blizzard)"}
+		when "Fog"{ weathertxt0="雾(Fog)"}
+		when "Freezing fog"{ weathertxt0="冰雾(Freezing fog)"}
+		when "Patchy light drizzle"{ weathertxt0="局部毛毛雨(Patchy light drizzle)"}
+		when "Light drizzle"{ weathertxt0="毛毛雨(Light drizzle)"}
+		when "Freezing drizzle"{ weathertxt0="冻毛毛雨(Freezing drizzle)"}
+		when "Heavy freezing drizzle"{ weathertxt0="大冻雨(Mist)"}
+		when "Patchy light rain"{ weathertxt0="局部小雨(Patchy light rain)"}
+		when "Light rain"{ weathertxt0="小雨(Light rain)"}
+		when "Moderate rain at times"{ weathertxt0="阵雨(Moderate rain at times)"}
+		when "Moderate rain"{ weathertxt0="中雨(Moderate rain)"}
+		when "Heavy rain at times"{ weathertxt0="大阵雨(Heavy rain at times)"}
+		when "Heavy rain"{ weathertxt0="大雨(Heavy rain)"}
+		when "Light freezing rain"{ weathertxt0="小冻雨(Light freezing rain)"}
+		when "Moderate or heavy freezing rain"{ weathertxt0="冻雨(Moderate or heavy freezing rain)"}
+		when "Light sleet"{ weathertxt0="小雨夹雪(Light sleet)"}
+		when "Moderate or heavy sleet"{ weathertxt0="雨夹雪(Moderate or heavy sleet)"}
+		when "Patchy light snow"{ weathertxt0="局部小雪(Patchy light snow)"}
+		when "Light snow"{ weathertxt0="小雪(Light snow)"}
+		when "Patchy moderate snow"{ weathertxt0="局部中雪(MPatchy moderate snowist)"}
+		when "Moderate snow"{ weathertxt0="中雪(Moderate snow)"}
+		when "Patchy heavy snow"{ weathertxt0="局部大雪(Patchy heavy snow)"}
+		when "Heavy snow"{ weathertxt0="大雪(Heavy snow)"}
+		when "Ice pellets"{ weathertxt0="小冰雹(Ice pellets)"}
+		when "Light rain shower"{ weathertxt0="小阵雨(Light rain shower)"}
+		when "Moderate or heavy rain shower"{ weathertxt0="中到大阵雨(Moderate or heavy rain shower)"}
+		when "Torrential rain shower"{ weathertxt0="暴雨阵雨(Torrential rain shower)"}
+		when "Light sleet showers"{ weathertxt0="小阵雪(Light sleet showers)"}
+		when "Moderate or heavy sleet showers"{ weathertxt0="中到大阵雪(Moderate or heavy sleet showers)"}
+		when "Light showers of ice pellets"{ weathertxt0="小阵冰雹(Light showers of ice pellets)"}
+		when "Moderate or heavy showers of ice pellets"{ weathertxt0="中到大阵冰雹(Moderate or heavy showers of ice pellets)"}
+		when "Patchy light rain with thunder"{ weathertxt0="局部小雷雨(Patchy light rain with thunder)"}
+		when "Moderate or heavy rain with thunder"{ weathertxt0="中到大雷雨(Moderate or heavy rain with thunder)"}
+		when "Patchy light snow with thunder"{ weathertxt0="局部小雷雪(Patchy light snow with thunder)"}
+		when "Moderate or heavy snow with thunder"{ weathertxt0="中到大雷雪(Moderate or heavy snow with thunder)"}
+		when "Light snow showers"{ weathertxt0="小阵雪(Light snow showers)"}
+		when "Moderate or heavy snow showers"{ weathertxt0="中到大阵雪(Moderate or heavy snow showers)"}
+	}
+	//白天
+	if weathercode3{
+		weathertxt3="白天"
+	}elseif !weathercode3{
+		weathertxt3="夜晚"
+	}
+	//雨
+	if weathercode18{
+		weathertxt18="会下雨"
+	}elseif !weathercode18{
+		weathertxt18="不下雨"
+	}
+	//雪
+	if month>10 || month<4{
+		if weathercode20{
+			weathertxt20="会下雪"
+		}elseif !weathercode20{
+			weathertxt20="不下雪"
+		}
+	}elseif month <=10 && month >=4{
+		weathercode20=""
+	}
+	//PM2.5
+	if (weathercode31<35){
+		weathertxt31="优"
+	}elseif (weathercode31>=35) && (weathercode31<75){
+		weathertxt31="良"
+	}elseif (weathercode31>=75) && (weathercode31<115){
+		weathertxt31="轻度污染"
+	}elseif (weathercode31>=115) && (weathercode31<150){
+		weathertxt31="中度污染"
+	}elseif (weathercode31>=150) && (weathercode31<250){
+		weathertxt31="重度污染"
+	}elseif (weathercode31>=250){
+		weathertxt31="严重污染"
+	}
+	//updatetime
+	adaysecond=weathercode36 % 86400
+	auodatehour=adaysecond/3600+8
+	auodateminute=adaysecond % 3600 /60
+	auodatesecond=adaysecond % 60
+	weathertxt36="%(auodatehour):%(auodateminute):%(auodatesecond)"
+	
+	
+}
+
+//网页获取，在saori夹里
+获得网页信息{
+	massagetest=FUNCTIONEX('saori/httpc.dll','utf8','https://rsshub.app/bilibili/user/dynamic/27717502')
+	"\b[2]\_q%(massagetest)\e"
+}
+
+//查询运行程序
+看看程序{
+	_i=FUNCTIONEX('saori/Process.dll')
+	//_ProcessData=TOLOWER(valueex0);
+	_ProcessData=valueex0
+	SETDELIM(_ProcessData,"*")
+	programtxt="\b[2]\_q"
+	foreach _ProcessData;_item{
+		_name=_item[0,"|"]
+		_path=_item[2,"|"]
+		if _name !_in_ programtxt{
+			programtxt+="程序名：%(_name)\n路径：%(_path)\n"
+		}
+	}
+	programtxt+="\e"
+}

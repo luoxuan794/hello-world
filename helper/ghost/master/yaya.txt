@@ -1,0 +1,23 @@
+﻿
+charset, UTF-8
+
+//系统辞书
+dic, yaya_compatible.dic		// YAYA: AYA過去互換用辭書
+dic, shiori3.dic			// YAYA: 辭書制御辭書
+
+//辞书目录
+dic, dic/Word.dic			// 标点符号停顿规定，单语规定
+dic, dic/Time.dic			// 时间相关辞书
+dic, dic/BootEnd.dic			// 主要是启动和终止相关、人物切换相关
+dic, dic/Menu.dic			// 菜单事件
+dic, dic/passiveReact.dic			// 鼠标动作响应的事件辞书
+dic, dic/ToolTip.dic			// 工具注释
+dic, dic/openexe.dic			// 打开外部应用的命令
+dic, dic/autoreact.dic			// 自动响应的事件
+dic, dic/plugin.dic			// 插件相关的的事件
+dic, dic/etc.dic			// 其他核心事件辭書
+dic, dic/Schedulereminder.dic		//ssp的calendar使用的时候，提醒
+
+//运行日志
+log, ayame.log				// 运行记录
+iolog, off

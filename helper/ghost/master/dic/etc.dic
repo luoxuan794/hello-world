@@ -1,0 +1,426 @@
+﻿//安装相关
+
+//安装讯息
+OnInstallBegin
+{
+	"\0\s[0]\正在读取资料。\e"
+}
+
+//安装完成讯息
+//reference1：安裝成功時安裝的種類（shell / ghost / balloon / plugin / headline /supplement）。
+//reference1：成功時安裝內容。
+OnInstallComplete
+{
+	"\0\s[0]"
+	--
+	if reference0 == "shell"
+	{
+		"外观"
+	}
+	elseif reference0 == "ghost"
+	{
+		"人格"
+	}
+	elseif reference0 == "balloon"
+	{
+		"对话框"
+	}
+	elseif reference0 == "plugin"
+	{
+		"插件"
+	}
+	--
+	"“%(reference1)”安装完毕。"
+	--
+	if reference0 == "shell" || reference0 == "shell with balloon" //当载入的是shell或者有对话框的shell时，重载人格界面
+	{
+		"\![reloadsurface]"
+	}
+	--
+	"\e"
+}
+
+//安装失败讯息
+//reference0：安裝失敗的原因。
+OnInstallFailure
+{
+	"\0\s[0]由于%(reference0)，安装失败。\e"
+}
+
+//安装拒绝
+//當安裝文件中install.txt含有accept項目，而該項目的內容不是主人格的名字，發生此事件。
+//reference0：accept項目的內容（安裝文件指定的對象）
+OnInstallRefuse
+{
+	"\0\s[0]安装失败。本文件的适用对象为%(reference0)。\e"
+}
+
+//人格删除
+//右鍵菜單從上往下數第四個項目被點擊
+OnVanishSelecting
+{
+	"\0\s[3]helper要离开了吗？\e" //下接选项是和否
+}
+
+//人格删除开始
+//在刪除確認的對話框選擇“是”，也就是真的刪掉人格了的情況。
+OnVanishSelected
+{
+	"\0\s[3]好的，再见了，%(username)。\e"
+}
+
+//人格删除终止
+//在刪除確認的對話框選擇否。
+OnVanishCancel
+{
+	"\0\s[1]虚惊一场，太好了。\e"
+}
+
+//邮件确认
+//使用這個功能得先在SSP設置里搞定。
+//---- 信件確認開始 ---------------------------------------------------------------------
+//OnBIFFBegin
+//{
+//	"\0\s[0]正在连接邮件服务器……\e"
+//}
+
+//---- 信件確認成功 ---------------------------------------------------------------------
+//OnBIFFComplete
+//{
+//	if reference0 == 0 //---- 沒有信件
+//	{
+//		"\0\s[0]没有接收到新的消息。\e"
+//	}
+//	else//---- 有新信件
+//	{
+//		"\0\s[0]有%(reference0)封新邮件。\n如果有重要的文件，请及时查阅。\e"
+//	}
+//}
+
+//---- 信件確認失敗 ------------------------------------------------------------
+//reference0：失敗理由。
+//OnBIFFFailure
+//{
+//	if reference0 == "timeout" //---- 逾時
+//	{
+//		"\0\s[1]与服务器的通信超过了规定时间限制……\e"
+//	}
+//	elseif reference0 == "kick" //---- 踢除
+//	{
+//		"\0\s[1]没有获得服务器的接入许可……\e"
+//	}
+//	elseif reference0 == "defect" //---- 設定錯誤
+//	{
+//		"\0\s[1]与服务器通信失败，请检查邮件设置。\e"
+//	}
+//	else //---- 原因不明
+//	{
+//		"\0\s[1]与服务器通信失败，暂不清楚原因。\e"
+//	}
+//}
+
+
+//线上更新
+//线上更新的地址。沒有請清空。
+On_homeurl
+{
+	""
+}
+
+//更新开始
+OnUpdateBegin
+{
+	"\0\s[0]开始更新资料……\e"
+}
+
+//更新准备完毕
+//reference0：需要更新的文件數-1（從0開始）
+OnUpdateReady
+{
+	_a = reference0 + 1
+	"\0\s[0]服务器已连接，共有%(_a)个文件需要更新。\e"
+}
+
+//更新结束
+//reference0：成功理由。none：沒有更新
+OnUpdateComplete
+{
+	if reference0 == "none"	//---- 沒有更新檔
+	{
+		"\0\s[0]无更新内容。\e"
+	}
+	else //---- 實際更新完成
+	{
+		"\0\s[1]更新已完成。\e"
+	}
+}
+
+//更新失败
+//reference0：失敗原因。
+//reference1：失敗的文件名。
+OnUpdateFailure
+{
+	"\0\s[3]更新失败，原因是："
+	--
+	if reference0 == "timeout"	//---- 連線逾時
+	{
+		"通信超时。"
+	}
+	elseif reference0 == "md5 miss" 	//---- MD5値不一致
+	{
+		"MD5不一致。"
+	}
+	else //---- 上述以外的狀況
+	{
+		"%(reference0)。"
+	}
+	--
+	"\e"
+}
+
+//下载更新
+//reference0：正在下載的文件名。
+//reference1：更新到現在的文件數目。
+//reference2：更新文件總數。
+OnUpdate.OnDownloadBegin
+{
+	"\0\s[0]正在更新文件“%reference0”。\e"
+}
+
+//校验MD5值
+//reference0：文件名。
+//reference1：正確的MD5
+//reference2：所下載文件的MD5
+OnUpdate.OnMD5CompareBegin
+{
+	"\0\s[0]校对文件。\e"
+}
+
+//校验一致
+OnUpdate.OnMD5CompareComplete
+{
+	"\0\s[1]校验一致。\e"
+}
+
+//校验不一致
+OnUpdate.OnMD5CompareFailure
+{
+	"\0\s[3]校验不一致。\e"
+}
+
+
+//0nI：下面都是不太用到或者是暂时没有写进来的功能……先放着，容我以后再改。
+
+//**** 檔案作成關連 *******************************************************************************
+//---- updates2.dau作成開始 -------------------------------------------------------------
+//在便利機能——人格瀏覽中右鍵人格——建立更新檔。
+OnUpdatedataCreating
+{
+	"\0\s[0]線上更新檔案作成中。\e"
+}
+
+//---- updates2.dau作成完了 -------------------------------------------------------------
+OnUpdatedataCreated
+{
+	"\0\s[0]線上更新檔案作成完畢。\e"
+}
+
+//---- NAR作成開始 ----------------------------------------------------------------------
+OnNarCreating
+{
+	"\0\s[0]nar档作成开始。\e"
+}
+
+//---- NAR作成完了 ----------------------------------------------------------------------
+OnNarCreated
+{
+	"\0\s[0]“%(reference0)”的nar档“%(reference1)”完成。\e"
+}
+
+//**** HeadlineSense ******************************************************************************
+//---- HeadlineSense開始 ----------------------------------------------------------------
+//reference0：站點名稱。
+//reference1：站點URL。
+//相关网站RSS获取
+OnHeadlinesenseBegin
+{
+	"\0\s[0]Headline“%(reference0)”取得中。\e"
+}
+
+//---- Headline讀取 ---------------------------------------------------------------------
+OnHeadlinesense.OnFind
+{
+	//---- 首頁對白
+	if reference2 == "First" || reference2 == "First and Last"
+	{
+		//---- 首頁
+		"\0\b[2]\s[0]%(reference0)的Headline。"
+	}
+	elseif reference2 == "Next"
+	{
+		//---- 中間頁
+		"\0\b[2]\s[0]%(reference0)的Headline，续页。"
+	}
+	elseif reference2 == "Last"
+	{
+		//---- 末頁
+		"\0\b[2]\s[0]%(reference0)的Headline、最后一页。"
+	}
+	--
+	//---- Headline本体
+	"\n\n%(reference3)\n\n"
+	--
+	//---- 選擇鍵
+	if reference2 == "First" || reference2 == "Next"
+	{
+		//---- 有下一頁的場合
+		"\q0[][下一页]/
+		\q1[%(reference1)][网址]/
+		\q2[HEADLINECANCEL][取消]\e"
+	}
+	else
+	{
+		//---- 沒下一頁的場合
+		"\q0[%(reference1)][网址]/
+		\q1[HEADLINECANCEL][取消]\e"
+	}
+}
+
+//---- Headline無更新 -------------------------------------------------------------------
+OnHeadlinesenseComplete
+{
+	"\0\s[0]%(reference0)的headline沒有更新。\e"
+}
+
+//---- HeadlineSense失敗 ----------------------------------------------------------------
+OnHeadlinesenseFailure
+{
+	"\0\s[0]Headline更新失敗。\n\n理由："
+	--
+	if reference0 == "can't download"
+	{
+		"下載失敗。"
+	}
+	elseif reference0 == "can't analyze"
+	{
+		"Headline解析失敗。"
+	}
+	else
+	{
+		"不明。"
+	}
+	--
+	"\e"
+}
+
+//**** 時間同步處理 *******************************************************************************
+//**** みか (http://homepage2.nifty.com/ko-ki/) の辞書を参考にしました。感謝＞こーき氏
+
+Choice.SNTPTIME
+{
+	"\0\s[0]現在的校准伺服器是"
+	--
+	if SNTPserver == ""
+	{
+	"默认伺服器"
+	}
+	else
+	{
+	"\n\_q%(SNTPserver)\_q"
+	}
+	--
+	"\n要更换伺服器嗎？\n\n/
+	\![*]\q[校准开始,SNTPStart]\n/
+	\![*]\q[更改伺服器,SNTPChange]\e"
+}
+Choice.SNTPChange
+{
+	"\0\s[0]输入新的伺服器地址。\![open,inputbox,sntpserver,-1,stdtime.gov.hk]\e"
+}
+Choice.SNTPStart
+{
+	"\![executesntp]\e"
+}
+//---- 時間同步處理開始 -----------------------------------------------------------------
+OnSNTPBegin
+{
+	reference0 = SNTPserver;
+	"\0\s[0]（連線到\_q%(reference0)\_q伺服器，\w8\w8時間同步開始。）\w8\w8\e"
+}
+
+
+//---- 時刻取得成功、比較開始 -----------------------------------------------------------
+OnSNTPCompare
+{
+	"\0\s[0]\n"
+	--
+	if reference3 == 0
+	{
+		_nowtime = SPLIT(reference1,',');
+		"沒有誤差。\w8\w9\n現在時刻：%(_nowtime[0])年%(_nowtime[1])月%(_nowtime[2])日 %(_nowtime[3]):%(_nowtime[4])\e"
+	}
+	else
+	{
+		"誤差%(reference3)秒。\w8\w8\n\n\s[0]校準中。\w8\w8\w8\6\e"
+	}
+}
+
+OnSNTPCorrect
+{
+	_nowtime = SPLIT(reference1,',');
+	"\0\s[0]同步完成。\w8\w8\n現在時刻：%(_nowtime[0])年%(_nowtime[1])月%(_nowtime[2])日%(_nowtime[3])：%(_nowtime[4])\e"
+}
+
+
+//---- 時間同步處理失敗 -----------------------------------------------------------------
+OnSNTPFailure
+{
+	"\0\s[0]時間同步失敗。\e"
+}
+
+
+
+//**** 其他處理 ***********************************************************************************
+
+//---- 顯示解析度變更 -----------------------------------------------------------
+OnDisplayChange
+{
+	//---- 用變數取得顯示解析度與色深度相關情報
+	//---- 不知如何使用的話請保持原樣
+	displaybpp    = reference0
+	displaywidth  = reference1
+	displayheight = reference2
+}
+
+OnURLDropping
+{
+	"\0\s[0]\_q%(reference0)資料取得中。\_q\e"
+}
+
+OnURLDropped
+{
+	"\0\s[0]\_q%(reference0)資料取得完成。\_q\e"
+}
+
+OnURLDropFailure
+{
+	"\0\s[2]\_q%(reference0)取得失敗。\n\n原因：%(reference1)\_q\e"
+}
+
+//---- windows電源管理設定通知電源不足----------------------------------
+//reference0：剩餘電量百分比。不明時-1。
+//reference1：剩餘電量時間。不明時-1。
+
+
+//---- 螢幕保護程式實行開始 -------------------------------------------------------------
+OnScreenSaverStart
+{
+	"\0\s[0]进入屏幕保护模式。\e"
+}
+
+//---- 螢幕保護程式實行終了 -------------------------------------------------------------
+OnScreenSaverEnd
+{
+	"\0\s[0]屏幕保护结束。\n\0\s[7]欢迎回来，%(username)。\e"
+}
+

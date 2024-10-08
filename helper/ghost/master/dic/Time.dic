@@ -1,0 +1,126 @@
+﻿
+
+//秒计
+OnSecondChange{
+	lastbootsecond=second
+}
+
+//整点判断
+OnMinuteChange
+{
+	看看程序()
+	lastbootminute=minute
+	if minute == 0 && ClockSwitch == 1
+	{
+		整点报时()
+		lastboothour=hour
+	}
+	--
+	if sleepflagtimes==0{
+		sleepflag=0
+	}else{
+		if sleepflag<=sleepflagtimes{
+			sleepflag++
+		}
+		elseif sleepflag>sleepflagtimes{
+			"\0\s[7]"
+		}
+	}
+	--
+	if hour==23 && minute==30{
+		"\0\s[1]\_v[ghost\master\saori\【深夜语音】.wav]丽塔提醒~\e"
+	}
+	--
+	if "HYP.exe" _in_ programtxt{
+		gametime++
+		if !(gametime%60){
+			"\0\s[6]%(username)，您已经玩了%(gametime/60)小时的游戏了，适当休息一下吧。"
+		}
+	}elseif "HYP.exe" !_in_ programtxt{
+		gametime=0
+	}
+}
+//报时功能
+整点报时
+{
+	if hour == 0
+	{
+		lastbootyear=year
+		lastbootmonth=month
+		lastbootday=day
+		angrymode=1
+		"\0\s[6]现在是凌晨零时。该睡觉了哦。\e"
+	}
+	elseif hour >=1 && hour <=6
+	{
+		"\0\s[4]现在时刻，凌晨%(hour)点整。%(username)还不休息吗？\e"
+
+	}
+	elseif hour == 7 || hour <12
+	{
+		"\0\s[0]现在是上午%(hour)点。\e"
+	}
+	elseif hour == 12
+	{
+		"\0\s[0]%(hour)点了，该吃午饭了。要来一集《银魂》下饭吗\n\![*]\q[好哇,opengingtama]\n\![*]\q[不用了,refusegintama]\e"
+	}
+	elseif hour ==13 || hour <18
+	{
+		"\0\s[0]现在时刻，下午%(hour12)点整。\e"
+	}
+	elseif hour >= 18 && hour <= 20
+	{
+		"\0\s[0]晚上%(hour12)点了。\e"
+	}
+	elseif hour >=21 && hour < 23
+	{
+		"\0\s[0]晚上%(hour12)点整。\e"
+	}
+	elseif hour == 23
+	{
+		"\0\s[0]已经晚上%(hour12)点了。"
+	}
+
+}
+
+//星期相关对话
+星期相关
+{
+	case weekday {
+		when 0 	{
+			wday="日曜日"
+			weeknum=weeknum+1
+			"\0\s[1]今天是日曜日，%(weathertxt0)，双休最后一天哦。"
+			}	
+		when 1 	{
+			wday="月曜日"
+			"\0\s[1]今天是月曜日，%(weathertxt0)，新的一周开始啦。"
+			}
+		when 2 	{
+			wday="火曜日"
+			"\0\s[0]今天是火曜日，%(weathertxt0)，要继续加油哦。"
+			}
+		when 3 	{
+			wday="水曜日"
+			"\0\s[0]今天是水曜日，%(weathertxt0)，\s[4]夏天听到水曜日是否会觉得清凉一些呢？"
+			}
+		when 4 	{
+			wday="木曜日"
+			"\0\s[1]今天是木曜日，%(weathertxt0)，工作日快要结束了呢。"
+			}
+		when 5 	{
+			wday="金曜日"
+			"\0\s[5]今天是金曜日，%(weathertxt0)，工作日最后一天，是金色的呢。"
+			}
+		when 6 	{
+			wday="土曜日"
+			"\0\s[1]今天是土曜日，%(weathertxt0)，双休开始咯~"
+			}
+	}
+}
+周数统计{
+	if weeknum>53{
+		weeknum=1
+	}
+
+}

@@ -1,0 +1,159 @@
+
+OnAiTalk{
+	talkrand=RAND(5)
+	if sleepflag>sleepflagtimes{
+		"\0\s[6]啊，我刚才睡着了吗？\s[5]被AiTalk任务叫醒了……\e"
+		sleepflag=0
+	}
+	else{
+		if talkrand==0{
+			sei相关闲聊()
+		}elseif talkrand >0{
+			学习相关()
+			关于自己()
+		}
+	}
+}
+
+//セイ相关
+sei相关闲聊{
+	"\0\s[4]是不是很久都没有去看セイ的状况了？\e"
+	
+}
+
+//学习相关
+学习相关{
+	if hour<12 && hour>=8{
+		"\0\s[4]%(username)有没有在学习呢？\e"
+	}elseif hour>14 && hour<=18{
+		"\0\s[2]下午也要好好学习哦~"
+	}
+	
+}
+//helper相关
+关于自己{
+	"\0\s[0]helper初期的定位是便利工具，所以装了一些奇怪的制作者觉得便利的功能。\e"
+}
+
+//用户没有休息够
+昨晚熬夜{
+	if (lastbootyear==year)&&(lastbootmonth==month)&&(lastbootday==day)&&((lastboothour-hour)<8){
+		if angrymode==1{
+			"\s[3]啊，还有，昨天%(username)很晚才去休息，helper很担心您的健康。"
+		}
+	}
+}
+//充电相关
+OnBatteryChargingStop{
+	"\0\s[6]已脱离电源，目前电量为%(reference0)%请注意用电哦~\e"
+}
+
+OnBatteryChargingStart{
+	"\0\s[1]开始充电啦。\e"
+}
+
+//插入设备
+OnDeviceArrival{
+	"\0\s[5]感应到有设备接入。\e"
+}
+
+//断开设备
+OnDeviceRemove{
+	"\0\s[6]感应到有设备移除。\e"
+}
+
+/*
+//在系统编码为UTF-8下仍不能使reference相等
+//插入设备
+OnDeviceArrival{
+	akaby=reference;
+	inoutflag=1;
+	整合设备信息()
+
+}
+
+//断开设备
+OnDeviceRemove{
+	akaby=reference;
+	inoutflag=0;
+	整合设备信息()
+}
+
+//设备信息处理
+整合设备信息{
+	_i=ARRAYSIZE(akaby);
+	akabyc=IARRAY;
+	if inoutflag ==1{
+		for _j=0;_j<_i;_j++{
+			akabyc+=akaby[_j];
+		}	
+	}elseif inoutflag==0{
+		for _j=1;_j<=_i;_j++{
+			akabyc+=akaby[_i-_j];
+		}	
+	}
+	设备记忆()
+}
+
+//设备信息存储
+设备记忆{
+	
+	devicememories=IARRAY;
+	devicenumber=0;
+	devicename=IARRAY;
+	
+	if (akabyc !_in_ devicememories){
+		"\0\s[6]\b[2]是不认识的设备，设备信息是\_q %(akabyc)\_q\n需要helper记住它吗？\n\![*]\q[请记住它的名字,askdevicename]\n\![*]\q[不用记住,ignoredevice]\e"
+	}else{
+		for _i=0;((_i<=devicenumer)||(akabyc _in_ devicename[_i])||(akabyc ==devicename[_i]));_i++;{}
+		if inoutflag==1{
+			"\0\s[6]感应到%(_i)号%(devicename[_i])接入。\e"
+		}elseif inoutflag==0{
+			"\0\s[6]感应到%(_i)号%(devicename[_i])移除。\e"
+		}
+	}
+}
+//记录新设备名字
+Choice.askdevicename{
+	"\![open,inputbox,inputdevicename]好的，请告诉我它的名字。\e"
+}
+//输入设备名字后
+Input.inputdevicename{
+	if reference1!= "" {
+		_devicememoriesbefore=devicememories;
+		_devicenamebefore=devicename;
+		devicememories=(_devicememoriesbefore,akabyc);
+		devicename+=(_devicenamebefore,reference1);
+		"\0\s[1]\b[2]收到设备名：%(devicename[devicenumber])\n/
+		设备编号：%(devicenumber)\n/
+		\_q设备信息：%(devicememories[devicenumber])\e"
+		devicenumber++;
+	}
+}
+*/
+
+//---- 電池電力不足 --------------------------------------------------------------
+//reference0：剩餘電量百分比。不明時-1。
+//reference1：剩餘電量時間。不明時-1。
+OnBatteryLow{
+	"\0\s[6]电池电量剩余%(reference0)，注意用电哦~\e"
+}
+
+//系统主题切换（明暗），开发模式下重载ghost后不能测试该对话，需要重启ssp
+OnDarkTheme{
+	if (reference0==1)&&(applightstate!=reference0){
+		"\0\s[6]app变黑了。\e"
+	}elseif (reference0==0)&&(applightstate!=reference0){
+		"\0\s[1]app亮起来了。\e"
+	}elseif (reference1==1)&&(windowstate!=reference1){
+		"\0\s[6]周围变暗了。\e"
+	}elseif (reference1==0)&&(windowstate!=reference1){
+		"\0\s[1]周围变亮了。\e"
+	}
+	applightstate=reference0
+	windowstate=reference1
+}
+//虚拟桌面变换
+OnVirtualDesktopChanged{
+	"\0\s[6]嗯？另一张桌面？\e"
+}

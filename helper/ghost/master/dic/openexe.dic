@@ -1,0 +1,170 @@
+	
+//第一次打开exe
+询问文件地址{
+	"\0\s[4]helper还不清楚office文件夹的位置，可以告诉helper吗？helper会一直记得的！\n\![*]\q[输入文件位置,tellexefilename]\_l[150,-]\![*]\q[不告诉你,refusetellfilename]"
+}
+Choice.tellexefilename{
+	"\0\s[1]好的，请说。\![open,inputbox,teachexefilename]"
+}
+Input.teachexefilename{
+	
+	if reference1==""{
+		"\0\s[4]没有收到文件地址哦。\e"
+	}
+	else{
+		if xex>0 && xex<6{
+			officefile=reference1
+		}
+	}
+	"\0\s[1]地址是%(officefile)，要现在就打开%(exename[xex])吗？\n\![*]\q[打开,open%(exename[xex])]"
+}
+Choice.refusetellfilename{
+	"\0\s[3]对不起，helper是笨蛋。\e"
+}
+
+
+
+//打开onenote   C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE
+Choice.openonenote{
+	xex=1
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\ONENOTE.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]好哦，要开始学习了吗~\e"
+		xex=0
+	}
+	menuflag=0
+}
+
+//open outlook		C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE
+Choice.openoutlook{
+	xex=2
+	//exefile[xex]="空"
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\OUTLOOK.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开outlook，要发邮件还是查看日程呢？\e"
+		xex=0
+
+	}
+	menuflag=0
+}
+//open word
+Choice.openword{
+	xex=3
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\WINWORD.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开word，记得及时保存进度哦~\e"
+	}
+	menuflag=0
+}
+Choice.openPPT{
+	xex=4
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\POWERPNT.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]打开PPT，制作ppt的话，还是先有模板再开工会更方便呢。\e"
+	}
+	menuflag=0
+}
+Choice.openexcel{
+	xex=5
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\EXCEL.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开excel，是表格软件，也是绘图软件，功能强大，超出你的想象！\e"
+	}
+	menuflag=0
+}
+
+//打开几何计算器
+Choice.opengg6{
+	"\0\s[1]为您打开GeoGebra_6，经典，永不过时。\![open,file,C:\Users\lcl\AppData\Local\GeoGebra_6\app-6.0.579\GeoGebra.exe]\e"
+	menuflag=0
+}
+Choice.openggc{
+	"\0\s[1]为您打开GeoGebra_Calculator，全新界面，全新体验。\![open,file,C:\Users\lcl\AppData\Local\GeoGebra_Calculator\app-6.0.846\GeoGebraCalculator.exe]\e"
+	menuflag=0
+}
+Choice.openmat{
+	"\0\s[1]为您打开Matlab，看来是个大工程呢，还请耐心等待软件启动哦~\![open,file,G:\MAT\kkk\bin\matlab.exe]\e"
+	menuflag=0
+}
+
+//打开扫雷
+Choice.minesweeper{
+	if minesweepertimes==0{
+		"\0这是%(username)第一次打开扫雷，helper需要ssp的安装路径用于解压文件。	\![open,inputbox,mslocation]\e"
+	}
+	"\0\s[2]\![open,file,ghost\master\ink\MinesweeperWin7\Minesweeper.exe]来一局热血沸腾的扫雷吧！\e"
+	menuflag=0
+}
+Input.mslocation{
+	if reference1!=""{
+		msaddress1=reference1+"\ghost\helper\ghost\master\ink\MinesweeperWin7.zip"
+		msaddress2=reference1+"\ghost\helper\ghost\master\ink"
+		"\0收到地址，正在解压缩。\![execute,extractarchive,%(msaddress1),%(msaddress2)]\e"
+		minesweepertimes++
+		Choice.minesweeper()
+	}elseif reference1==""{
+		"\0\s[4]没有收到地址呢。\e"
+	}
+
+}
+
+//打开控制面板
+Choice.controlcenter{
+	"\0\s[0]\![open,file,ghost\master\ink\Control Panel.lnk]打开控制面板。\n\s[4]要做些什么呢？\e"
+	menuflag=0
+}
+
+//打开卸载
+Choice.uninstallapps{
+	"\0\s[1]\![open,file,ghost\master\ink\程序和功能.lnk]卸载程序后可能会有更多存储空间哦~\e"
+	menuflag=0
+}
+
+//打开任务管理器
+Choice.opentaskmgr{
+	"\0\s[4]\![open,file,Taskmgr.exe]打开任务管理器，关闭一些不必要的后台进程电脑或许会运行得更流畅？\e"
+	menuflag=0
+
+}
+
+//打开windows media player
+Choice.wmplayer{
+	"\0\s[1]\![open,file,wmplayer.exe]打开Windows Media Player，经典媒体播放器，比电影和电视更好用呢。\e"
+	menuflag=0
+}
+
+//打开崩坏3扫码器
+Choice.scaner{
+	"\0\s[1]\![open,file,G:\Honkai Impact\scan\scaner.exe]崩坏三好耶ヽ(✿ﾟ▽ﾟ)ノ\e"
+	menuflag=0
+}
+
+//打开桌宠-芝麻球
+Choice.blade{
+	"\0\s[1]\![open,file,ghost\master\ink\blade.lnk]是芝麻球呀！✪ ω ✪\e"
+	menuflag=0
+}
+
+//清空回收站
+Choice.erbin{
+	　"\![raiseplugin,8F8BCFB8-B27A-456f-9BA0-551484856DDC,OnSwissArmyKnifeExecute,empty_recycle_bin]"
+	　menuflag=0
+
+}
+
+OnSwissArmyKnifeExecute{
+	if reference0=="empty_recycle_bin"{
+		"\0\s[2]哼哼！向回收站使用瑞士军刀！\e"
+	}
+	
+}

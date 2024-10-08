@@ -1,0 +1,8 @@
+﻿Charset,UTF-8
+type,shell
+name,master
+directory,master
+craftman,0nIllusion
+craftmanurl,http://xwzluciabruma.wordpress.com/
+
+accept,Mask

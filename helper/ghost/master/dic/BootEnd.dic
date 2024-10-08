@@ -1,0 +1,161 @@
+﻿//初次启动事件
+OnFirstBoot
+{
+//变量初始值设定
+	username="先生"
+	changeflag=0//改名标志
+	userbirthday = "未填写" //设定用户生日为 未填写
+	stroke = 0 //抚摸记录清零
+	teachusername = 0 //用户名设定次数清零
+	teachuserbirthday = 0 //用户生日设定次数清零
+	intimacy = 0 //亲密度清零
+	GhostFirstBoot = GETSECCOUNT();//记录初次启动时间
+	GhostLastBoot = CurrentTime; //记录本次启动时间
+	otherghosttalkswitch = 1 //是否与其他人格对话
+	aitalkinterval = 300//随机对话间隔设置（5分钟）
+	sleepflag=0//睡眠标志
+	sleepflagtimes=30//睡眠预设时间
+	ClockSwitch = 1 //开启报时提醒
+	infolistopen = 0 //是否开启info list
+	wday=""//星期清空
+	exefile=("空","空","空","空","空")//exe文件地址清空
+	catalogmax=1
+	txtcontain=("测试","内容")
+	minesweepertimes=0
+
+	shell.name = "master"//初次启动使用的shell，默认为master
+	if reference0 == 0 //判断是否为初次安装
+	{
+	//初回启动事件
+		"\0\s[1]初次加载完成。你好，我是helper。请问我可以知道您的名字吗？\n\n\![*]\q[输入名字,Changeusername]\n\![*]\q[不告诉名字,notellname]\e"
+	}
+	else
+	{
+	//删除后重新安装事件，也可以不特别设置
+		"\0\s[1]格式化完成，重新加载成功。又见面了%(username)\e"
+	}
+}
+
+Choice.notellname{
+	"\0\s[0]那就先称您为%(username)吧。\e"
+}
+
+
+
+//通常启动
+OnBoot
+{
+	GhostLastBoot = CurrentTime; //记录本次启动时间
+	CurrentTime = GETSECCOUNT() //获取本地时间
+	sleepflag=0//睡眠标志
+	angrymode=0//熬夜生气模式清零
+	//显示角色（sakura和kero，可只显示其中之一）
+	_i="\0\s[1]helper启动成功。"
+	_i+=星期相关()
+	_i+=周数统计()
+	_i+=昨晚熬夜()
+	_i+="\e"
+	"%(_i)"
+}
+
+//关闭事件
+OnClose
+{
+	//关闭人格端显示
+	"\0\s[1]再见。\-"
+}
+
+//从最小化还原
+OnWindowStateRestore
+{
+           	if reference0=="user"{
+             		"\0\s[1]从最小化还原成功。\n"
+            		 "\0\s[1]helper回来啦。\e"
+            		 "\0\s[1]睡了个好觉。\e"
+	}else{
+		"\0\s[6]遇到突发状况。\e"
+	}
+}
+
+OnWindowStateMinimize{
+	if reference0=="user"{
+		"\0\s[1]嗯，helper去休息一下。\e"
+	}else{
+		"\0\s[6]遇到突发状况。\e"
+	}
+}
+
+//切换人格
+OnGhostChanging
+{
+	if reference0=="helper"
+	{
+		"\0\s[1]人格切换为\_w[1000]\e"
+	}else{
+		"\0\s[1]执行人格切换.\e"
+	}
+}
+
+//从其它人格切换,%(reference0)可用与提及切换的人格名称
+OnGhostChanged{
+	if reference0=="helper"
+	{
+		"\0\s[4]我自己？\e"
+	}else{
+		"\0\s[1]从%(reference0)切换回helper，成功。\e"
+	}
+
+}
+//呼叫其他人格
+OnGhostCallComplete
+{
+	"\0\s[0]呼叫%(reference0)成功。\e"
+}
+//被其它人格召唤
+OnGhostCalled
+{
+	GhostLastBoot = CurrentTime; 
+	CurrentTime = GETSECCOUNT();
+	CHAIN.IDName =""
+	"\0\s[0]helper，接受呼叫。\e"
+}
+//其它人格被关闭
+OnOtherGhostClosed
+{
+	"\0\s[4]%(reference0)走了？\_w[1000]\s[1]下次再来呀。\e"
+}
+//其它人格被切换
+OnOtherGhostChanged
+{
+	"\0\s[1]是接力赛呢。\e"
+}
+//删除其他人格
+OnOtherGhostVanished
+{
+	"\0\s[4]人格%(reference0)删除确认？\e"
+}
+
+OnBalloonTimeout{
+	"\s[0]"
+	sleepflag=0
+}
+OnBalloonClose{
+	sleepflag=0
+	"\w[5000]\s[0]"
+	
+}
+OnBalloonBreak{
+	"\s[0]"
+	sleepflag=0
+
+}
+OnTrayBalloonClick{
+	"\s[0]"
+	sleepflag=0
+
+}
+OnTrayBalloonTimeout{
+	"\s[0]"
+	sleepflag=0
+
+}

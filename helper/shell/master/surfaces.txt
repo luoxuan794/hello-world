@@ -1,0 +1,120 @@
+
+charset,UTF-8
+descript
+{
+	version,1
+}
+surface0-6
+{
+	collisionex0,head,polygon,15,54,41,28,72,11,105,2,133,1,157,4,177,11,198,20,216,38,230,57
+	collisionex1,eye1,ellipse,58,70,86,129
+	collisionex2,eye2,ellipse,149,70,177,129
+	//collision2,0,0,247,209,body
+}
+surface0
+{
+	element0,base,surface1000.png,0,0
+
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1100,50,58,65
+	animation0.pattern1,overlay,1100,100,58,70
+	animation0.pattern2,overlay,1100,50,58,75
+	animation0.pattern3,overlay,1100,100,58,70
+		
+
+}
+surface1
+{
+	element0,base,surface1000.png,0,0
+
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1101,50,58,65
+	animation0.pattern1,overlay,1101,100,58,70
+	animation0.pattern2,overlay,1101,50,58,75
+	animation0.pattern3,overlay,1101,100,58,70
+
+}
+surface2
+{
+	element0,base,surface1000.png,0,0
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1102,50,58,75
+	animation0.pattern1,overlay,1102,100,58,80
+	animation0.pattern2,overlay,1102,50,58,85
+	animation0.pattern3,overlay,1102,100,58,80
+
+}
+surface3
+{
+	element0,base,surface1000.png,0,0
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1103,50,46,65
+	animation0.pattern1,overlay,1103,100,46,70
+	animation0.pattern2,overlay,1103,50,46,75
+	animation0.pattern3,overlay,1103,100,46,70
+
+}
+surface4
+{
+	element0,base,surface1000.png,0,0
+	element2,base,surface1204.png,190,10
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1100,50,58,65
+	animation0.pattern1,overlay,1100,100,58,70
+	animation0.pattern2,overlay,1100,50,58,75
+	animation0.pattern3,overlay,1100,100,58,70
+
+}
+surface5
+{
+	element0,base,surface1000.png,0,0
+	element2,base,surface1205.png,23,117
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1100,50,58,65
+	animation0.pattern1,overlay,1100,100,58,70
+	animation0.pattern2,overlay,1100,50,58,75
+	animation0.pattern3,overlay,1100,100,58,70
+
+}
+surface6
+{
+	element0,base,surface1000.png,0,0
+	element2,base,surface1206.png,195,12
+
+	animation0.interval,runonce+rarely+talk
+	animation0.pattern0,overlay,1100,50,58,65
+	animation0.pattern1,overlay,1100,100,58,70
+	animation0.pattern2,overlay,1100,50,58,75
+	animation0.pattern3,overlay,1100,100,58,70
+
+}
+
+surface7
+{
+	element0,base,surface1000.png,0,0
+
+
+	animation0.interval,always
+	animation0.pattern0,overlay,1207,500,134,45
+	animation0.pattern1,overlay,1217,500,134,28
+	animation0.pattern2,overlay,1227,500,134,14
+	animation0.pattern3,overlay,1237,500,134,14
+	animation0.pattern4,overlay,1247,500,134,14
+	animation0.pattern5,overlay,1257,500,134,14
+
+
+
+}
+
+
+surface10{
+	animation0.interval,never
+	animation0.pattern0,overlay,2000,50,0,0
+
+}

@@ -1,0 +1,500 @@
+﻿//打开菜单事件
+OpenMenu
+{
+	if sleepflag>sleepflagtimes{
+		"\0\s[4]\b[2]啊？\_w[500]\s[6]哦！菜单！"
+		sleepflag=0
+	}
+	elseif  sleepflag<=sleepflagtimes
+	{
+		"\0\s[0]\b[2]菜单已开启。"
+	}
+	--
+	Menu()
+}
+
+Choice.ReturnMenu
+{
+	
+	"\0\s[0]\b[2]回到菜单。"
+	--
+	Menu
+}
+
+Menu
+{
+	menuflag=1
+	"\0\n\n\_q"
+	--
+	"\_q\![*]\q[ssp的设置,ConfigurationDialogHelp]\_l[150,-]\![*]\q[helper本体设定,helpersiori]\n/
+	\![*]\q[变更用户资料,Userpage]\_l[150,-]\![*]\q[更改周数,changeweeknumber]\n/
+	\![*]\q[打开ghost一览,seeghost]\_l[150,-]\![*]\q[几何计算器,calculator]\n/
+	\![*]\q[office,openofficeexe]\_l[150,-]\![*]\q[windows实用工具,windowstoollist]\n/
+	\![*]\q[娱乐软件,havefun]\_l[150,-]\![*]\q[看《银魂》,opengingtama]\n/
+	\![*]\q[ukadoc的命令例执行,executesample]\_l[150,-]\n"
+	--
+	"\_q───────────\n日期：%(year)年%(month)月%(day)日  时间：%(hour)：%(minute) \n星期：%(wday)    第%(weeknum)周\n"
+	--
+	//"───────────\n内存使用率：%property[system.memory.load]%       CPU使用率：%property[system.cpu.load]%\n"
+	--
+	"\q[──────天气详情─────,seeweather]\n地区：%(weathercode38)\n/
+	天气：%(weathertxt0)\n/
+	气温：%(weathercode5)℃\_l[110,-]空气质量：%(weathertxt31)\n/
+	%(weathertxt18)\_l[150,-]%(weathertxt20)\n"
+	--
+	"─────常用功能──────\n/
+	\![*]\q[OneNote,openonenote]\_l[150,-]\![*]\q[Outlook,openoutlook]\n/
+	\![*]\q[WindowsMediaPlayer,wmplayer]\_l[150,-]\![*]\q[崩坏三扫码器,scaner]\n/
+	\![*]\q[清空回收站,erbin]\_l[150,-]\![*]\q[重载ghost,reloadtoupgrade]\n"
+	--
+	"\n\![*]\q[取消,Cancel]\e"
+}
+
+//OnChoiceSelect事件 
+//reference0：選擇項目的ID
+//這裡使用EVAL幫助。\q[選項的字,選項的ID]，這裡的ID如果是On開頭，選擇后直接發生這個On開頭為名的事件。不是On開頭的情况下，發生【Choice.選項的ID】 為名的事件。
+
+OnChoiceSelect
+{
+   EVAL("Choice.%(reference0)")
+}
+
+//查看天气
+Choice.seeweather{
+	"\0\s[0]\b[2]\_q现在的天气是：\n/
+	地点：%(weathercode38)\_l[200,-]%(weathertxt3)\n/
+	天气：%(weathertxt0)\n/
+	气温：%(weathercode5)℃\_l[150,-]体感：%(weathercode6)℃\n/
+	湿度：%(weathercode8)%\n/
+	下雨概率：%(weathercode19)%\_l[150,-]下雪概率：%(weathercode21)%\n/
+	PM2.5含量：%(weathercode31) ug/m3      %(weathertxt31)\n/
+	更新时间：%(weathertxt36)\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\_l[110,-]\![*]\q[取消,Cancel]\e"
+	menuflag=0
+}
+
+
+Choice.ConfigurationDialogHelp{
+	"\0\s[0]\![open,configurationdialog,setup]打开ssp设置。\e"
+	menuflag=0
+}
+
+Choice.seeghost{
+	"\0\s[0]\![open,ghostexplorer]打开人格浏览。\e"
+		menuflag=0
+
+}
+
+//取消
+Choice.Cancel
+{
+	"\0\s[0]关闭菜单。\e"
+		menuflag=0
+
+}
+
+//helper本体相关
+Choice.helpersiori{
+	"\0\s[0]\b[2]这里有和helper有关的设定。\n"
+	--
+	"\n\![*]\q[关于helper,AboutSelf]\n\![*]\q[记录测试,txtcatalog]\n/
+	\![*]\q[为什么睡觉,whysleep]\n\![*]\q[变更对话频率,TALKINTERVAL]\n/
+	\![*]\q[最上层显示,topper]\n\![*]\q[整点报时,ChangeAlarm]\_l[110,-]\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\_l[110,-]\![*]\q[取消,Cancel]\e"
+
+}
+
+
+
+//office
+Choice.openofficeexe{
+	exename=("空","onenote","outlook","word","PPT","excel")
+	"\0\s[0]\b[2]目前helper可以打开的office软件都在这里啦。\n"
+	--
+	"\n\![*]\q[OneNote,openonenote]\n\![*]\q[outlook,openoutlook]\n\![*]\q[word,openword]\n\![*]\q[PPT,openPPT]\n\![*]\q[excel,openexcel]\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\n\![*]\q[取消,Cancel]\e"
+}
+
+//windowstool
+Choice.windowstoollist{
+	"\0\s[0]\b[2]常用windows小工具，不用再到开始菜单找啦。\n\n"
+	--
+	"\_q\![*]\q[控制面板,controlcenter]\n\![*]\q[卸载程序,uninstallapps]\n\![*]\q[任务管理器,opentaskmgr]\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\n\![*]\q[取消,Cancel]\e"
+
+}
+
+Choice.CommunicateOpen //开启输入框
+{
+	"\0\s[0]请问有什么需要特别查询或者补充的信息吗？\![open,communicatebox]\e"
+}
+
+Choice.TALKINTERVAL
+{
+	"\0\s[0]\b[2]调整信息传递的频率和间隔。\n\n/
+	\![*]\q[最高频率,TALKMAX]\n/
+	\![*]\q[通常频率,TALKNORMAL]\n/
+	\![*]\q[低频交流,TALKPOOR]\n/
+	\![*]\q[控制交流,TALKctrl]\n/
+	\![*]\q[交流禁止,TALKNONE]\e"
+}
+
+Choice.TALKMAX //对话间隔控制，时间单位为秒
+{
+	aitalkinterval = 60
+	"\0\s[0]对话间隔最小。\e"
+	menuflag=0
+
+}
+Choice.TALKNORMAL
+{
+	aitalkinterval = 300
+	"\0\s[0]对话间隔普通。\e"
+	menuflag=0
+}
+Choice.TALKPOOR
+{
+	aitalkinterval = 600
+	"\0\s[0]对话间隔较大。\e"
+	menuflag=0
+}
+Choice.TALKctrl{
+	"\0\s[0]自定义对话间隔，时间单位：秒。\![open,sliderinput,talkchangeflag,60000,%(aitalkinterval),0,6000]\e"
+	menuflag=0
+}
+Input.talkchangeflag{
+		aitalkinterval=reference1
+		aitalkminite=aitalkinterval/60
+		"\0\s[0]闲聊频率变更为约%(aitalkminite)~%(aitalkminite+1)分钟一次。\e"
+
+}
+
+
+Choice.TALKNONE
+{
+	aitalkinterval = 0
+	"\0\s[0]停止自动随机对话。\e"
+	menuflag=0
+}
+
+
+//最上层指定
+Choice.topper
+{
+	"\0\s[0]现在的模式是 "
+	--
+	if topped !=1
+	{"普通状态"}
+	else
+	{"最上层显示"}
+	--
+	" 。\n\n\![*]\q[普通,toppershut]\n\![*]\q[最上层,topperopen]\e"
+}
+Choice.toppershut
+{
+	topped = 0
+	"\0\s[0]已经设定为普通模式。\![set,windowstate,!stayontop]\e"
+	menuflag=0
+}
+Choice.topperopen
+{
+	topped = 1
+	"\0\s[0]已经设定为最上层显示。\![set,windowstate,stayontop]\e"
+	menuflag=0
+}
+
+OnChoiceTimeout //选择超时
+{
+	"\0\s[0]超出等待时间。\e"
+	"\0\s[0]没有收到回应呢。\e"
+	--
+	menuflag=0
+}
+
+Choice.Changeusername
+{
+	"\0\s[0]\![open,inputbox,teachusername]好的，请输入名字。\e"
+}
+Input.teachusername{
+	if reference1==""{
+		"\0\s[4]没有收到新名字。\e"
+	}elseif reference1!=""{
+		"\0\s[1]用户名为%(username)"
+	}
+}
+
+Choice.tellbirthday
+{
+	"\0\s[0]请修改您的生日。\![open,dateinput,Ontellbirthdayer,-1]"
+}
+
+//OnUserInput事件
+//reference0：輸入框的ID
+//reference1：輸入的內容
+//在EVAL的幫助下，所有輸入事件指向Input.ID為名的事件，reference1的值是輸入的內容。如果輸入框的ID為On開頭，那麼直接指向這個On開頭的ID為名字的事件，reference0的值為輸入的內容。如\![open,inputbox,forexample,-1]指向Input.forexample，reference1的值為輸入的值。但是\![open,inputbox,Onforexample,-1]指向的是Onforexample，reference0的值為輸入的值。
+
+OnUserInput
+{   
+	EVAL("Input.%(reference0)") 
+	menuflag=0
+}
+
+
+//---------輸入生日----------
+Ontellbirthdayer
+{
+	userbirthday = SPLIT(reference0,","); //以「,」作為區隔切成三個陣列元素（感謝時原砂さん）
+	"\0\s[0]您的生日是\n%(userbirthday[0])年%(userbirthday[1])月%(userbirthday[2])日。我记住了。\e"
+	menuflag=0
+}
+
+Choice.ChangeAlarm
+{
+	if ClockSwitch == 0
+	{
+		"\0\s[0]目前没有预定整点提醒功能。\n\n/
+		\![*]\q[报时打开,AlarmOpen]\n/
+		\![*]\q[返回菜单,ReturnMenu]\e"
+	}
+	else
+	{
+		"\0\s[0]整点提醒功能正在运作中。\n\n/
+		\![*]\q[报时关闭,AlarmShut]\n/
+		\![*]\q[返回菜单,ReturnMenu]\e"
+	}
+}
+Choice.AlarmOpen
+{
+	ClockSwitch = 1
+	"\0\s[0]已经开启整点提醒功能。\e"
+	menuflag=0
+}
+Choice.AlarmShut
+{
+	ClockSwitch = 0
+	"\0\s[0]已经关闭整点提醒功能。\e"
+	menuflag=0
+}
+
+//用戶資料
+Choice.Userpage
+{
+	"\0\s[0]\b[2]目前我所知的%(username)的信息如下——\n\n/
+	\_q\![*]用戶名：\n%(username)\_l[150,-]\q[(修改),Changeusername]\n/
+	\![*]用戶生日：\n%(userbirthday[0])年%(userbirthday[1])月%(userbirthday[2])日\_l[150,-]\q[(修改),tellbirthday]\n"
+	--
+	"\n\![*]\q[取消,Cancel]\_q\e"
+}
+
+
+//自我介紹
+Choice.AboutSelf
+{
+	"\0\s[0]\b[2]想要更详细地了解helper？\n/
+	\0\s[0]\n\n\![*]\q[helper,aboutMask]\n\![*]\q[Void,aboutVoid]\n/
+	\n\![*]\q[取消,cancel]\e"
+}
+
+Choice.aboutMask
+{
+	"\0\s[0]helper是小助手。\n制作目的是让helper的制作者在更方便地使用电脑，同时也让制作者有更多理由摸鱼去做一些开心的事情而开发的。\n\x嗯？你问菜单里娱乐选项这么少哪里够摸鱼？\n\s[0]其实制作helper就是摸鱼哦~娱乐选项只是附带啦。\e"
+	menuflag=0
+}
+
+Choice.aboutVoid
+{
+	"\0\s[0]\b[2]helper没有名叫Void的副人格哦，\n那为什么会有这条说明？\n因为用yaya文法写的helper没有副人格的图片就会报错呢。\n\s[1]不如来猜猜看shell文件夹里的哪一张图片是用来防止报错的图片吧？\n\_q\![*]\q[已经知道了,tellvoidshell]\n\![*]\q[去找找看,serchvoidshell]\n\![*]\q[不想猜,novoidshell]\n\e"
+}
+
+//shell猜猜看应答
+Choice.tellvoidshell{
+	"\0\s[6]\![open,inputbox,voidshell]好哇，是哪张图片呢？把文件名告诉我吧！\e"
+}
+Input.voidshell{
+	if reference1 == "" //输入为空时
+	{
+		"\0\s[0]没有收到文件名哦。\e"
+	}
+	elseif reference1=="surface2000"
+	{
+		"\0\s[1]恭喜你找到了这个看起来没用的图片。\nhelper很开心，\n%(username)是一个具有探索精神的人呢~\e"
+	}elseif reference1=="surface2000.png"{
+		"\0\s[1]恭喜你找到了这个看起来没用的图片。\nhelper很开心，\n%(username)是一个具有探索精神的人呢~\e"
+	}
+	menuflag=0
+
+}
+
+Choice.serchvoidshell{
+	"\0\s[1]\![open,file,shell/master]好哦，这是helper的shell文件夹，答案就在里面哦。\e"
+	menuflag=0
+}
+Choice.novoidshell{
+	"\0\s[0]好吧，那我们不玩这个游戏。\e"
+	menuflag=0
+}
+
+//修改周数
+Choice.changeweeknumber
+{
+	"\0\s[0]修改周数，今天是第几周呢？\![open,sliderinput,weeknumflag,60000,%(weeknum),0,60]\e"
+	menuflag=0
+}
+Input.weeknumflag{
+		weeknum=reference1
+		"\0\s[1]今天是%(weeknum)周呢~\e"
+
+}
+
+//打开几何计算器
+Choice.calculator{
+	"\0\s[4]\b[2]要打开哪种几何计算器呢？无论哪种计算器，很久都没使用过的话启动会很慢呢。\n"
+	--
+	"\_q\n\![*]\q[GeoGebra_6,opengg6]\n\![*]\q[GeoGebra_Calculator,openggc]\n\![*]\q[Matlab,openmat]\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\_l[110,-]\![*]\q[取消,Cancel]\e"
+}
+
+//娱乐
+Choice.havefun{
+	"\0\s[0]\b[1]这是helper目前可以打开的娱乐软件。\n/
+	\![*]\q[扫雷,minesweeper]\n/
+	\![*]\q[桌宠-芝麻球,blade]\e"
+}
+
+//睡觉频率
+Choice.whysleep{
+	"\0\s[3]\b[2]对不起，因为待在这里什么都不做就会越来越困，忍不住就……\n"
+	--
+	"\_q\![*]\q[再休息一会儿吧,forgive]\n\![*]\q[打起精神来,sleep120]\n\![*]\q[不许睡觉,nosleep]\n\![*]\q[控制helper的精神状态,selfchangesleep]\e"
+}
+Choice.forgive{
+	"\0\s[5]%(username) ，你真好~\e"
+	sleepflagtimes=30
+	menuflag=0
+}
+Choice.sleep120{
+	"\0\s[2]好哦，我要撑住两小时！\e"
+	sleepflagtimes=120
+	menuflag=0
+}
+Choice.nosleep{
+	"\0\s[3]好的，我会撑住的。\e"
+	sleepflagtimes=0
+	menuflag=0
+}
+Choice.selfchangesleep{
+	"\0\s[1]好哦，拜托你啦。设定单位是分钟哦。\![open,sliderinput,changesleepflag,60000,%(sleepflagtimes),0,1440]\e"
+}
+
+Input.changesleepflag{
+		sleepflagtimes=reference1
+		"\0\s[0]%(username)控制了helper的精神状态，\n在没有发生对话的情况下helper可以保持%(sleepflagtimes)分钟的清醒状态。\e"
+
+}
+
+
+//看番
+Choice.opengingtama{
+	"\0\s[1]\![open,browser,https://www.bilibili.com/bangumi/play/ss38157?spm_id_from=333.337.0.0]打开《银魂》！\e"
+	menuflag=0
+}
+Choice.refusegintama{
+	"\0\s[0]好的，那下次再说吧。\e"
+}
+
+
+
+Choice.txtcatalog{
+	_txt="\0\s[0]\b[2]打开记忆目录。\n\_q"
+	for i=0;i<=catalogmax;i++{
+		if txtcontain[i]==""{
+			_txt+="%(i)，已删除\n"
+		}elseif txtcontain[i]!=""{
+			_txt+="%(i)，%(txtcontain[i])\n"
+		}
+	}
+	--
+	_txt+="\n"
+	--
+	"\_q%(_txt)\n\![*]\q[加入语句,addtxt]\n\![*]\q[修改语句,fixtxt]\n\![*]\q[删除语句,deletetxt]\n"
+	--
+	"\n\![*]\q[返回,ReturnMenu]\_l[110,-]\![*]\q[取消,Cancel]\e"
+
+}
+
+Choice.addtxt{
+
+	"\![open,inputbox,addtxtcontain]"
+}
+
+Choice.deletetxt{
+	deletetxtflag=1
+	"\![open,sliderinput,deletetxtflag,60000,0,0,%(catalogmax)]请选择想要删除的记录号。\e"
+}
+Input.deletetxtflag{
+
+	if reference1!= "" {
+		txtnumber=reference1
+		catalogmax--
+		txtcontain[txtnumber]=IARRAY
+		"\0\s[0]删除%(txtnumber)号记录"
+	}
+}
+Choice.fixtxt{
+	"\![open,sliderinput,fixtxtflag,60000,0,0,%(catalogmax)]请选择修改的记录号。\e"
+}
+
+Input.fixtxtflag{
+		txtnumber=reference1
+		"\![open,inputbox,fixtxtcontain]请输入修改内容。\e"
+
+}
+
+Input.addtxtcontain{
+	catalogmax++
+	txtcontainbefore=txtcontain
+	txtcontain=(txtcontainbefore,reference1)
+	addtxtcontain=0
+	"\0\s[1]新增内容为：%(txtcontain[catalogmax])\e"
+	menuflag=0
+
+}
+Input.fixtxtcontain{
+	if reference1==""{
+		"\0\s[4]没有新内容输入？\e"
+	}elseif reference1!=""{
+		txtcontain[txtnumber]=reference1
+		"\0\s[0]%(txtnumber)号内容更改为：%(txtcontain[txtnumber])\e"
+	}
+}
+
+Choice.reloadtoupgrade{
+	"\![reload,ghost]"
+}
+
+Choice.executesample{
+	FUNCTIONEX('saori/httpc.dll','https://outlook.live.com/owa/calendar/0cde94e8-729e-4a23-b435-395a9e971a7b/6edad186-63e7-4e1b-916a-c84e0fbe1b59/cid-9DC20938A146DDD5/calendar.ics', '01.ics')
+	
+	//使用yaya语言函数直接读写文件
+	FCHARSET(UTF-8);
+	FOPEN('datafortest/01.txt',"w");
+	FWRITE('datafortest/01.txt',_i);
+	//_a=FREAD('datafortest/01.txt');
+	FCLOSE('datafortest/ics.txt')
+	
+}
+OnExecuteHTTPComplete{
+	"\_q%(reference0)\n%(reference1)\n%(reference2)\n%(reference3)\n%(reference4)\n%(reference5)\e"
+}
+OnExecuteHTTPFailure{
+	"%(reference4)\e"
+}
+
+OnSystemDialog{
+	"\0\b[2]%(reference0)\n%(reference1)\n%(reference2)\e"
+}

@@ -1,0 +1,6 @@
+OnSchedule5MinutesToGo{
+	"%(reference0)\n%(reference1)\n%(reference2)\n%(reference3)\n"
+}
+OnScheduleRead{
+	"现在鼠标指向的是：\n类型：%(reference0)\n标题：%(reference1)\n笔记：%(reference2)\n说明：%(reference3)\n"
+}

@@ -1,0 +1,5 @@
+﻿Charset,UTF-8
+type,ghost
+name,helper
+directory,helper
+craftman,lcl

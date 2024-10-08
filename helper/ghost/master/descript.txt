@@ -1,0 +1,14 @@
+﻿charset,UTF-8 
+name,helper
+type,ghost
+craftman,lcl
+
+sakura.name,helper
+kero.name,helper
+
+sstp.allowunspecifiedsend,1
+
+balloon,helper
+
+shiori,yaya.dll
+icon,helper.ico
