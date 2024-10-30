@@ -1,10 +1,11 @@
 Charset,UTF-8
 __system_settings_version__,2
 balloon,E:\cssp2.02.90\cssp\balloon\helper\
+GroupFlagOverride,noupdateauto,
 shiori.lognotify,0
 shiori.debugnotify,0
 Char.VirtualDesktop,bb64d5b7-4de3-4ab2-a87c-db7601aea7dc
-Char0.center,74
+Char0.center,86
 shell,shell\master\
 FirstBoot,booted
 Char1.center,1285

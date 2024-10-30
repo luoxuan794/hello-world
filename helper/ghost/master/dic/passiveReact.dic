@@ -34,7 +34,7 @@ MouseMoveSakura
 		stroke=0
 		touchname1=reference4
 	}
-	if stroke >= 100 //抚摸值达到一定量时
+	if stroke >= 50 //抚摸值达到一定量时
 	{
 		if angrymode==1{
 			"\0\s[2]快去睡觉！\e"

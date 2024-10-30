@@ -40,6 +40,7 @@ OnMinuteChange
 		gametime=0
 	}
 }
+
 //报时功能
 整点报时
 {
@@ -51,12 +52,12 @@ OnMinuteChange
 		angrymode=1
 		"\0\s[6]现在是凌晨零时。该睡觉了哦。\e"
 	}
-	elseif hour >=1 && hour <=6
+	elseif hour >=1 && hour <=5
 	{
 		"\0\s[4]现在时刻，凌晨%(hour)点整。%(username)还不休息吗？\e"
 
 	}
-	elseif hour == 7 || hour <12
+	elseif hour == 6 || hour <12
 	{
 		"\0\s[0]现在是上午%(hour)点。\e"
 	}

@@ -1,7 +1,8 @@
 ﻿charset,UTF-8 
 name,helper
 type,ghost
-craftman,lcl
+craftman,lcl、
+homeurl,https://github.com/luoxuan794/hello-world/tree/main/helper/
 
 sakura.name,helper
 kero.name,helper

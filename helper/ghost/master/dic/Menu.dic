@@ -478,23 +478,5 @@ Choice.reloadtoupgrade{
 }
 
 Choice.executesample{
-	FUNCTIONEX('saori/httpc.dll','https://outlook.live.com/owa/calendar/0cde94e8-729e-4a23-b435-395a9e971a7b/6edad186-63e7-4e1b-916a-c84e0fbe1b59/cid-9DC20938A146DDD5/calendar.ics', '01.ics')
-	
-	//使用yaya语言函数直接读写文件
-	FCHARSET(UTF-8);
-	FOPEN('datafortest/01.txt',"w");
-	FWRITE('datafortest/01.txt',_i);
-	//_a=FREAD('datafortest/01.txt');
-	FCLOSE('datafortest/ics.txt')
-	
-}
-OnExecuteHTTPComplete{
-	"\_q%(reference0)\n%(reference1)\n%(reference2)\n%(reference3)\n%(reference4)\n%(reference5)\e"
-}
-OnExecuteHTTPFailure{
-	"%(reference4)\e"
-}
-
-OnSystemDialog{
-	"\0\b[2]%(reference0)\n%(reference1)\n%(reference2)\e"
+	"\0\b[2]\![set,balloontimeout,-1]对话框常驻测试"
 }
