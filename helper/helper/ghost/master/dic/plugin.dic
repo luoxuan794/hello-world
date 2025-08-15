@@ -1,0 +1,245 @@
+//weather Station 在plugin夹里
+OnWeatherStation.Weather{
+
+	weathercode0=reference0//Weather condition
+	weathercode1=reference1//Weather condition icon filename. 
+	weathercode2=reference2//Weather condition code.
+	weathercode3=reference3//If it is daytime or not. 1 if the sun is up, 0 if the sun is down.
+	weathercode4=reference5//Temperature in Fahrenheit.
+	weathercode5=reference5//Temperature in Celsius.
+	weathercode6=reference6//"Feels like" temperature in Fahrenheit.
+	weathercode7=reference7//"Feels like" temperature in Celsius.
+	weathercode8=reference8//Humidity as a percentage.
+	weathercode9=reference9//Wind speed in miles per hour.
+	weathercode10=TOREAL(reference10)//Wind speed in kilometers per hour.
+	weathercode11=reference11//Wind direction as a 16 point compass. (e.g.: NNE for north/northeast.)
+	weathercode12=reference12//Wind direction in degrees.
+	weathercode13=reference13//Wind gust speed in miles per hour.
+	weathercode14=reference14//Wind gust speed in kilometers per hour
+	weathercode15=reference15//Precipitation in inches
+	weathercode16=reference16//Precipitation in millimeters
+	weathercode17=reference17//Cloud cover as a percentage
+	weathercode18=reference18//"Will it rain today". 1 for yes, 0 for no. Same information as the "Will it rain today" in OnWeatherStation.Forecast.Day
+	weathercode19=reference19//Chance of rain today, as a percentage. Same information as the chance of rain in OnWeatherStation.Forecast.Day
+	weathercode20=reference20//"Will it snow today". 1 for yes, 0 for no
+	weathercode21=reference21//Chance of snow today, as a percentage
+	weathercode22=reference22//Visibility in miles
+	weathercode23=reference23//Visibility in kilometers
+	weathercode24=reference24//Pressure in inches
+	weathercode25=reference25//Pressure in millibars
+	weathercode26=reference26//UV index
+	weathercode27=reference27//CO (Carbon Monoxide) in μg/m3 (Micrograms per cubic meter)
+	weathercode28=reference28//O3 (Ozone) in μg/m3 (Micrograms per cubic meter)
+	weathercode29=reference29//NO2 (Nitrogen Dioxide) in μg/m3 (Micrograms per cubic meter)
+	weathercode30=reference30//SO2 (Sulfur Dioxide) in μg/m3 (Micrograms per cubic meter)
+	weathercode31=reference31//PM2.5 (Particulate Matter smaller than 2.5 microns in diameter) in μg/m3 (Micrograms per cubic meter)
+	weathercode32=reference32//PM10 (Particulate Matter smaller than 10 microns in diameter) in μg/m3 (Micrograms per cubic meter)
+	weathercode33=reference33//US EPA index. 1 means Good, 2 means Moderate, 3 means Unhealthy for sensitive group, 4 means Unhealthy, 5 means Very unhealthy, 6 means Hazardous
+	weathercode34=reference34//UK Defra Index.
+	weathercode35=reference35//The user's choice of units (Imperial or Metric)
+	weathercode36=reference36//The time the plugin last updated the weather data, in seconds since EPOCH (1970/1/1 00:00:00)
+	weathercode37=reference37//The current version number of the plugin
+	天气报告()
+}
+
+Choice.locachange{
+	"\0\s[4]\![open,inputbox,newlocation]要将地址显示为什么呢？\e"
+}
+
+Input.newlocation{
+	if reference1 == "" //输入为空时
+	{
+		"\0\s[0]没有收到地址名称哦。\e"
+	}
+	elseif reference1 !=""
+	{
+		weathercode38=reference1
+		"\0\s[0]地址名称变更为：%(weathercode38)。\e"
+	}
+}
+
+
+天气报告{
+	//中文转换
+	case  weathercode0{
+		when "Sunny"{ weathertxt0="晴(Sunny)"}
+		when "Clear"{ weathertxt0="晴(Clear)"}
+		when "Partly cloudy"{ weathertxt0="局部多云(Partly cloudy)"}
+		when "Cloudy"{ weathertxt0="多云(Cloudy)"}
+		when "Overcast"{ weathertxt0="阴(Overcast)"}
+		when "Mist"{ weathertxt0="薄雾(Mist)"}
+		when "Patchy rain possible"{ weathertxt0="局部阵雨(Patchy rain possible)"}
+		when "Patchy snow possible"{ weathertxt0="局部阵雪(Patchy snow possible)"}
+		when "Patchy sleet possible"{ weathertxt0="局部雨夹雪(Patchy sleet possible)"}
+		when "Patchy freezing drizzle possible"{ weathertxt0="局部冻毛毛雨(Patchy freezing drizzle possible)"}
+		when "Thundery outbreaks possible"{ weathertxt0="雷暴(Thundery outbreaks possible)"}
+		when "Blowing snow"{ weathertxt0="雪(Blowing snow)"}
+		when "Blizzard"{ weathertxt0="暴雪(Blizzard)"}
+		when "Fog"{ weathertxt0="雾(Fog)"}
+		when "Freezing fog"{ weathertxt0="冰雾(Freezing fog)"}
+		when "Patchy light drizzle"{ weathertxt0="局部毛毛雨(Patchy light drizzle)"}
+		when "Light drizzle"{ weathertxt0="毛毛雨(Light drizzle)"}
+		when "Freezing drizzle"{ weathertxt0="冻毛毛雨(Freezing drizzle)"}
+		when "Heavy freezing drizzle"{ weathertxt0="大冻雨(Mist)"}
+		when "Patchy light rain"{ weathertxt0="局部小雨(Patchy light rain)"}
+		when "Light rain"{ weathertxt0="小雨(Light rain)"}
+		when "Moderate rain at times"{ weathertxt0="阵雨(Moderate rain at times)"}
+		when "Moderate rain"{ weathertxt0="中雨(Moderate rain)"}
+		when "Heavy rain at times"{ weathertxt0="大阵雨(Heavy rain at times)"}
+		when "Heavy rain"{ weathertxt0="大雨(Heavy rain)"}
+		when "Light freezing rain"{ weathertxt0="小冻雨(Light freezing rain)"}
+		when "Moderate or heavy freezing rain"{ weathertxt0="冻雨(Moderate or heavy freezing rain)"}
+		when "Light sleet"{ weathertxt0="小雨夹雪(Light sleet)"}
+		when "Moderate or heavy sleet"{ weathertxt0="雨夹雪(Moderate or heavy sleet)"}
+		when "Patchy light snow"{ weathertxt0="局部小雪(Patchy light snow)"}
+		when "Light snow"{ weathertxt0="小雪(Light snow)"}
+		when "Patchy moderate snow"{ weathertxt0="局部中雪(MPatchy moderate snowist)"}
+		when "Moderate snow"{ weathertxt0="中雪(Moderate snow)"}
+		when "Patchy heavy snow"{ weathertxt0="局部大雪(Patchy heavy snow)"}
+		when "Heavy snow"{ weathertxt0="大雪(Heavy snow)"}
+		when "Ice pellets"{ weathertxt0="小冰雹(Ice pellets)"}
+		when "Light rain shower"{ weathertxt0="小阵雨(Light rain shower)"}
+		when "Moderate or heavy rain shower"{ weathertxt0="中到大阵雨(Moderate or heavy rain shower)"}
+		when "Torrential rain shower"{ weathertxt0="暴雨阵雨(Torrential rain shower)"}
+		when "Light sleet showers"{ weathertxt0="小阵雪(Light sleet showers)"}
+		when "Moderate or heavy sleet showers"{ weathertxt0="中到大阵雪(Moderate or heavy sleet showers)"}
+		when "Light showers of ice pellets"{ weathertxt0="小阵冰雹(Light showers of ice pellets)"}
+		when "Moderate or heavy showers of ice pellets"{ weathertxt0="中到大阵冰雹(Moderate or heavy showers of ice pellets)"}
+		when "Patchy light rain with thunder"{ weathertxt0="局部小雷雨(Patchy light rain with thunder)"}
+		when "Moderate or heavy rain with thunder"{ weathertxt0="中到大雷雨(Moderate or heavy rain with thunder)"}
+		when "Patchy light snow with thunder"{ weathertxt0="局部小雷雪(Patchy light snow with thunder)"}
+		when "Moderate or heavy snow with thunder"{ weathertxt0="中到大雷雪(Moderate or heavy snow with thunder)"}
+		when "Light snow showers"{ weathertxt0="小阵雪(Light snow showers)"}
+		when "Moderate or heavy snow showers"{ weathertxt0="中到大阵雪(Moderate or heavy snow showers)"}
+	}
+	//白天
+	if weathercode3{
+		weathertxt3="白天"
+	}elseif !weathercode3{
+		weathertxt3="夜晚"
+	}
+	//雨
+	if weathercode18{
+		weathertxt18="会下雨"
+	}elseif !weathercode18{
+		weathertxt18="不下雨"
+	}
+	//雪
+	if month>10 || month<4{
+		if weathercode20{
+			weathertxt20="会下雪"
+		}elseif !weathercode20{
+			weathertxt20="不下雪"
+		}
+	}elseif month <=10 && month >=4{
+		weathercode20=""
+	}
+	//PM2.5
+	if (weathercode31<35){
+		weathertxt31="优"
+	}elseif (weathercode31>=35) && (weathercode31<75){
+		weathertxt31="良"
+	}elseif (weathercode31>=75) && (weathercode31<115){
+		weathertxt31="轻度污染"
+	}elseif (weathercode31>=115) && (weathercode31<150){
+		weathertxt31="中度污染"
+	}elseif (weathercode31>=150) && (weathercode31<250){
+		weathertxt31="重度污染"
+	}elseif (weathercode31>=250){
+		weathertxt31="严重污染"
+	}
+	//wind speed
+	if (weathercode10<0.72){
+		weathertxt10="无风（0）"
+	}elseif (weathercode10>=0.72) && (weathercode10<5.4){
+		weathertxt10="软风（1）"
+	}elseif (weathercode10>=5.4) && (weathercode10<11.8){
+		weathertxt10="清风（2）"
+	}elseif (weathercode10>=11.8) && (weathercode10<19.44){
+		weathertxt10="微风（3）"
+	}elseif (weathercode10>=19.44) && (weathercode10<28.44){
+		weathertxt10="和风（4）"
+	}elseif (weathercode10>=28.44) && (weathercode10<38.52){
+		weathertxt10="劲风（5）"
+	}elseif (weathercode10>=38.52) && (weathercode10<49.68){
+		weathertxt10="强风（6）"
+	}elseif (weathercode10>=49.68) && (weathercode10<61.56){
+		weathertxt10="疾风（7）"
+	}elseif (weathercode10>=61.56) && (weathercode10<74.52){
+		weathertxt10="大风（8）"
+	}elseif (weathercode10>=74.52) && (weathercode10<87.44){
+		weathertxt10="烈风（9）"
+	}elseif (weathercode10>=87.44) && (weathercode10<102.24){
+		weathertxt10="狂风（10）"
+	}elseif (weathercode10>=102.24) && (weathercode10<117.36){
+		weathertxt10="暴风（11）"
+	}elseif (weathercode10>=117.36) && (weathercode10<132.84){
+		weathertxt10="飓风（12）"
+	}elseif (weathercode10>=132.84){
+		weathertxt10="无尽风场（∞）"
+	}
+	//Wind gust speed：weathercode14
+	//Wind direction
+	case weathercode11{
+	when "N"{weathertxt11="北"}
+	when "NNE"{weathertxt11="北东北"}
+	when "NE"{weathertxt11="东北"}
+	when "ENE"{weathertxt11="东东北"}
+	when "E"{weathertxt11="东"}
+	when "ESE"{weathertxt11="东东南"}
+	when "SE"{weathertxt11="东南"}
+	when "SSE"{weathertxt11="南东南"}
+	when "S"{weathertxt11="南"}
+	when "SSW"{weathertxt11="南西南"}
+	when "SW"{weathertxt11="西南"}
+	when "WSW"{weathertxt11="西西南"}
+	when "W"{weathertxt11="西"}
+	when "WNW"{weathertxt11="西西北"}
+	when "NW"{weathertxt11="西北"}
+	when "NNW"{weathertxt11="北西北"}
+	}
+	//UV index
+	if (weathercode26<3){
+		weathertxt26="一级（不防晒）"
+	}elseif (weathercode26>=3) && (weathercode26<5){
+		weathertxt26="二级（需要防晒）"
+	}elseif (weathercode26>=5) && (weathercode26<7){
+		weathertxt26="三级（注意遮阳）"
+	}elseif (weathercode26>=7) && (weathercode26<10){
+		weathertxt26="四级（午后不外出）"
+	}elseif (weathercode26>=10){
+		weathertxt26="五级（不外出）"
+	}
+	//updatetime
+	adaysecond=weathercode36 % 86400
+	auodatehour=adaysecond/3600+8
+	auodateminute=adaysecond % 3600 /60
+	auodatesecond=adaysecond % 60
+	weathertxt36="%(auodatehour):%(auodateminute):%(auodatesecond)"
+	
+	
+}
+
+//网页获取，在saori夹里
+获得网页信息{
+	massagetest=FUNCTIONEX('saori/httpc.dll','utf8','https://rsshub.app/bilibili/user/dynamic/27717502')
+	"\b[2]\_q%(massagetest)\e"
+}
+
+//查询运行程序
+看看程序{
+	_i=FUNCTIONEX('saori/Process.dll')
+	//_ProcessData=TOLOWER(valueex0);
+	_ProcessData=valueex0
+	SETDELIM(_ProcessData,"*")
+	programtxt="\b[2]\_q"
+	//使用foreach循环，_ProcessData中的每个元素都在每次循环中都会以_item为名字便于调用
+	foreach _ProcessData;_item{
+		_name=_item[0,"|"]//以“|”为元素间隔，输出其中的0号元素
+		_path=_item[2,"|"]
+		if _name !_in_ programtxt{
+			programtxt+="程序名：%(_name)\n路径：%(_path)\n"
+		}
+	}
+	programtxt+="\e"
+}

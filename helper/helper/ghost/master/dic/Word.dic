@@ -1,0 +1,16 @@
+﻿//語尾停頓
+#globaldefine 、				、\w4
+#globaldefine ，				，\w8
+#globaldefine 。				。\w8\w8
+#globaldefine ；				；\w8
+#globaldefine ！				！\w8\w8
+#globaldefine ？				？\w8\w8
+#globaldefine …				…\w4
+#globaldefine ~					~\w4
+#globaldefine —				—\w4
+
+
+
+*/
+
+

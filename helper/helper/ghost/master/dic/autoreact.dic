@@ -1,0 +1,183 @@
+
+OnAiTalk{
+	talkrand=RAND(5)
+	if sleepflag>sleepflagtimes{
+		"\0\s[6]啊，我刚才睡着了吗？\e"
+		sleepflag=0
+	}
+	else{
+		if talkrand==0{
+			sei相关闲聊()
+		}elseif talkrand >0{
+			学习相关()
+			关于自己()
+			高频提醒()
+		}
+	}
+}
+
+高频提醒{
+	"%(vitalremin)"
+}
+//セイ相关
+sei相关闲聊{
+	"\0\s[4]是不是很久都没有去看セイ的状况了？\e"
+	
+}
+
+//学习相关
+学习相关{
+	if hour<12 && hour>=8{
+		"\0\s[4]%(callname)有没有在学习呢？\e"
+	}elseif hour>14 && hour<=18{
+		"\0\s[2]下午也要好好学习哦~"
+	}
+	
+}
+//helper相关
+关于自己{
+	"\0\s[0]helper初期的定位是便利工具，所以装了一些奇怪的制作者觉得便利的功能。\e"
+}
+
+//用户没有休息够
+昨晚熬夜{
+	if (lastbootyear==year)&&(lastbootmonth==month)&&(lastbootday==day)&&((lastboothour-hour)<8){
+		if angrymode==1{
+			"\s[3]啊，还有，昨天%(callname)很晚才去休息，helper很担心您的健康。"
+		}
+	}
+}
+//充电相关
+OnBatteryChargingStop{
+	"\0\s[6]已脱离电源，目前电量为%(reference0)%请注意用电哦~\e"
+}
+
+OnBatteryChargingStart{
+	"\0\s[1]开始充电啦。\e"
+}
+
+//游戏计时
+游戏计时{
+	FCHARSET(UTF-8);
+	b=0
+	while b==0 { b=FOPEN('datafortest/01.txt',"r"); }
+	for a=FREAD('datafortest/01.txt'); ".exe" _in_  a ; a=FREAD('datafortest/01.txt') {
+		if a _in_ programtxt{
+			gametime++
+			if !( gametime % 60 ) {
+				txtaca="\s[6]%(callname)，您已经玩了%(gametime/60)小时的游戏了，适当休息一下吧。"
+			}else{
+				txtaca=""
+			}
+			break;
+		}else{
+				txtaca=""
+		}
+	}
+	FCLOSE('datafortest/01.txt')
+	"\0%(txtaca)\e"
+}
+
+/*
+//插入设备
+OnDeviceArrival{
+	"\0\s[5]感应到有设备接入。\e"
+}
+
+//断开设备
+OnDeviceRemove{
+	"\0\s[6]感应到有设备移除。\e"
+}
+*/
+
+
+//插入设备
+OnDeviceArrival{
+	akaby=reference;
+	inoutflag=1;
+	整合设备信息()
+
+}
+
+//断开设备
+OnDeviceRemove{
+	akaby=reference;
+	inoutflag=0;
+	整合设备信息()
+}
+
+//设备信息处理
+整合设备信息{
+	_i=ARRAYSIZE(akaby);
+	akabyc=IARRAY;
+	akabyb=IARRAY;
+	if inoutflag ==1{
+		for _j=0;_j<_i;_j++{
+			akabyc+=akaby[_j];//将所有信息整和成一个文字列
+		}	
+	}elseif inoutflag==0{
+		for _j=1;_j<=_i;_j++{
+			akabyc+=akaby[_i-_j];
+		}	
+	}
+	akabya=SPLIT(akabyc,C_BYTE1)//重新分割信息
+	foreach akabya;_var{
+		akabyb+=INSERT(_var, 0, "\n")//在元素前加入换行符号
+	}
+	//"\b[2]%(akabyb)"
+	设备信息配对()
+}
+//配对设备信息
+设备信息配对{
+	if inoutflag{
+		dvcha="\0\s[5]感应到设备接入："
+	}else{
+		dvcha="\0\s[6]感应到设备移除："
+	}
+	if "Razer Inc" _in_  akabyb {
+		dvchb="雷蛇鼠标"
+	}elseif  ("手柄" _in_  akabyb) || ("HID-compliant game controller" _in_  akabyb) {
+		dvchb="手柄"
+	}elseif  ( ("键盘" _in_ akabyb) || ("keyboard" _in_ akabyb)) && (("鼠标" _in_ akabyb) || ("mouse" _in_ akabyb)){
+		dvchb="键鼠"
+	}elseif  ("键盘" _in_ akabyb) || ("keyboard" _in_ akabyb){
+		dvchb="键盘"
+	}elseif  ("鼠标" _in_ akabyb) || ("mouse" _in_ akabyb){
+		dvchb="鼠标"
+	}elseif  ("Camera" _in_ akabyb) || ("相机" _in_ akabyb){
+		dvchb="相机"
+	}elseif  "Wi-Fi" _in_ akabyb{
+		dvchb="无线网络"
+	}else{
+		dvchb="\b[2]未知设备\_q%(akabyb)\n\![*]\q[是高漫数位板,opengoman]    \![*]\q[不用管它,]"
+	}
+	"\0\s[5]%(dvcha) %(dvchb)"
+}
+
+//---- 電池電力不足 --------------------------------------------------------------
+//reference0：剩餘電量百分比。不明時-1。
+//reference1：剩餘電量時間。不明時-1。
+OnBatteryLow{
+	"\0\s[6]电池电量剩余%(reference0)，注意用电哦~\e"
+}
+
+//系统主题切换（明暗），开发模式下重载ghost后不能测试该对话，需要重启ssp
+OnDarkTheme{
+	if (reference0==1)&&(applightstate!=reference0){
+		"\0\s[6]app变黑了。\e"
+	}elseif (reference0==0)&&(applightstate!=reference0){
+		"\0\s[1]app亮起来了。\e"
+	}elseif (reference1==1)&&(windowstate!=reference1){
+		"\0\s[6]周围变暗了。\e"
+	}elseif (reference1==0)&&(windowstate!=reference1){
+		"\0\s[1]周围变亮了。\e"
+	}
+	applightstate=reference0
+	windowstate=reference1
+}
+//虚拟桌面变换
+OnVirtualDesktopChanged{
+	"\0\s[6]嗯？另一张桌面？\e"
+}
+
+

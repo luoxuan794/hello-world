@@ -1,0 +1,270 @@
+//常用功能
+Choice.seeallexe{
+	"\b[2]这里有helper能够打开的所有常用软件和功能：\_q\n/
+	\![*]\q[OneNote,openonenote]\n/
+	\![*]\q[outlook,openoutlook]\n/
+	\![*]\q[word,openword]\n/
+	\![*]\q[PPT,openPPT]\n/
+	\![*]\q[excel,openexcel]\n/
+	\![*]\q[WindowsMediaPlayer,wmplayer]\n/
+	\![*]\q[崩坏三扫码器,scaner]\n/
+	\![*]\q[清空回收站,erbin]\n/
+	\![*]\q[重载ghost,reloadtoupgrade]\n/
+	\![*]\q[GeoGebra_6,opengg6]\n\/
+	![*]\q[GeoGebra_Calculator,openggc]\n/
+	\![*]\q[Matlab,openmat]\n/
+	\![*]\q[扫雷,minesweeper]\n/
+	\![*]\q[控制面板,controlcenter]\n/
+	\![*]\q[卸载程序,uninstallapps]\n/
+	\![*]\q[任务管理器,opentaskmgr]\n/
+	\![*]\q[网易云音乐,wywmusic]\n/
+	\![*]\q[磁盘清理,opendiskclup]\n/
+	\![*]\q[碎片优化与整理,opendfrgui]\n/
+	\![*]\q[高漫数位板程序,opengoman]\n/
+	\![*]\q[ghost terminal,opengoterminal]\n/
+	\n\![*]\q[修改菜单常用功能显示,changeopenexe]\n/
+	\![*]\q[返回,ReturnMenu]\_l[150,-]\![*]\q[取消,Cancel]\e"
+
+}
+Choice.changeopenexe{
+	"\0\b[2]请选择想要放在菜单上的功能：\_q\n/
+	\![*]\q[OneNote,Onchangeouma,OneNote,openonenote]\n/
+	\![*]\q[outlook,Onchangeouma,outlook,openoutlook]\n/
+	\![*]\q[word,Onchangeouma,word,openword]\n/
+	\![*]\q[PPT,Onchangeouma,PPT,openPPT]\n/
+	\![*]\q[excel,Onchangeouma,excel,openexcel]\n/
+	\![*]\q[WindowsMediaPlayer,Onchangeouma,WindowsMediaPlayer,wmplayer]\n/
+	\![*]\q[崩坏三扫码器,Onchangeouma,崩坏三扫码器,scaner]\n/
+	\![*]\q[清空回收站,Onchangeouma,清空回收站,erbin]\n/
+	\![*]\q[重载ghost,Onchangeouma,重载ghost,reloadtoupgrade]\n/
+	\![*]\q[GeoGebra_6,Onchangeouma,GeoGebra_6,opengg6]\n\/
+	![*]\q[GeoGebra_Calculator,Onchangeouma,GeoGebra_Calculator,openggc]\n/
+	\![*]\q[Matlab,Onchangeouma,Matlab,openmat]\n/
+	\![*]\q[扫雷,Onchangeouma,扫雷,minesweeper]\n/
+	\![*]\q[控制面板,Onchangeouma,控制面板,controlcenter]\n/
+	\![*]\q[卸载程序,Onchangeouma,卸载程序,uninstallapps]\n/
+	\![*]\q[任务管理器,Onchangeouma,任务管理器,opentaskmgr]\n/
+	\![*]\q[网易云音乐,Onchangeouma,网易云音乐,wywmusic]\n/
+	\![*]\q[磁盘清理,Onchangeouma,磁盘清理,opendiskclup]\n/
+	\![*]\q[碎片优化与整理,Onchangeouma,碎片优化与整理,opendfrgui]\n/
+	\![*]\q[高漫数位板程序,Onchangeouma,高漫数位板程序,opengoman]\n/
+	\![*]\q[ghost terminal,Onchangeouma,ghost terminal,opengoterminal]\n/
+	\n\![*]\q[返回,ReturnMenu]\_l[150,-]\![*]\q[取消,Cancel]\1\b[2]菜单上已经有这些功能了：\n/
+	\![*]%(ofenusename[0])\_l[150,-]\![*]%(ofenusename[1])\n/
+	\![*]%(ofenusename[2])\_l[150,-]\![*]%(ofenusename[3])\n/
+	\![*]%(ofenusename[4])\_l[150,-]\![*]%(ofenusename[5])\n/
+	\n\![*]\q[恢复为默认,resetallname]\e"
+}
+
+//恢复默认排布
+Choice.resetallname{
+	ofenusename=("OneNote","Outlook","WindowsMediaPlayer","崩坏三扫码器","清空回收站","重载ghost")
+	ofenuseexena=("openonenote","openoutlook","wmplayer","scaner","erbin","reloadtoupgrade")
+	"\0默认排布恢复成功。\e"
+}
+
+//更改排布
+Onchangeouma{
+	"\b[2]请选择想要替换掉的功能：\_q\n/
+	\![*]\q[%(ofenusename[0]),Onchangeoumb,0,%(reference0),%(reference1)]\_l[150,-]\![*]\q[%(ofenusename[1]),Onchangeoumb,1,%(reference0),%(reference1)]\n/
+	\![*]\q[%(ofenusename[2]),Onchangeoumb,2,%(reference0),%(reference1)]\_l[150,-]\![*]\q[%(ofenusename[3]),Onchangeoumb,3,%(reference0),%(reference1)]\n/
+	\![*]\q[%(ofenusename[4]),Onchangeoumb,4,%(reference0),%(reference1)]\_l[150,-]\![*]\q[%(ofenusename[5]),Onchangeoumb,5,%(reference0),%(reference1)]\n/
+	\![*]\q[返回,ReturnMenu]\_l[150,-]\![*]\q[取消,Cancel]\e"
+}
+//执行更换
+Onchangeoumb{
+	ofenusename[reference0]=reference1
+	ofenuseexena[reference0]=reference2
+	"\0\s[1]已将%(ofenusename[reference0])更换到菜单页面。\e"
+}
+
+//第一次打开exe
+询问文件地址{
+	"\0\s[4]helper还不清楚office文件夹的位置，可以告诉helper吗？helper会一直记得的！\n\![*]\q[输入文件位置,tellexefilename]\_l[150,-]\![*]\q[不告诉你,refusetellfilename]"
+}
+Choice.tellexefilename{
+	"\0\s[1]好的，请说。\![open,inputbox,teachexefilename]"
+}
+Input.teachexefilename{
+	
+	if reference1==""{
+		"\0\s[4]没有收到文件地址哦。\e"
+	}
+	else{
+		if xex>0 && xex<6{
+			officefile=reference1
+		}
+	}
+	"\0\s[1]地址是%(officefile)，要现在就打开%(exename[xex])吗？\n\![*]\q[打开,open%(exename[xex])]"
+}
+Choice.refusetellfilename{
+	"\0\s[3]对不起，helper是笨蛋。\e"
+}
+
+
+
+//打开onenote   C:\Program Files\Microsoft Office\root\Office16\ONENOTE.EXE
+Choice.openonenote{
+	xex=1
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\ONENOTE.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]好哦，要开始学习了吗~\e"
+		xex=0
+	}
+	menuflag=0
+}
+
+//open outlook		C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE
+Choice.openoutlook{
+	xex=2
+	//exefile[xex]="空"
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\OUTLOOK.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开outlook，要发邮件还是查看日程呢？\e"
+		xex=0
+
+	}
+	menuflag=0
+}
+//open word
+Choice.openword{
+	xex=3
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\WINWORD.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开word，记得及时保存进度哦~\e"
+	}
+	menuflag=0
+}
+Choice.openPPT{
+	xex=4
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\POWERPNT.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]打开PPT，制作ppt的话，还是先有模板再开工会更方便呢。\e"
+	}
+	menuflag=0
+}
+Choice.openexcel{
+	xex=5
+	if officefile==""{
+		询问文件地址()
+	}else{
+		exefile[xex]=officefile+"\EXCEL.EXE"
+		"\0\s[1]\![open,file,%(exefile[xex])]为您打开excel，是表格软件，也是绘图软件，功能强大，超出你的想象！\e"
+	}
+	menuflag=0
+}
+
+//打开几何计算器
+Choice.opengg6{
+	"\0\s[1]为您打开GeoGebra_6，经典，永不过时。\![open,file,C:\Users\lcl\AppData\Local\GeoGebra_6\app-6.0.579\GeoGebra.exe]\e"
+	menuflag=0
+}
+Choice.openggc{
+	"\0\s[1]为您打开GeoGebra_Calculator，全新界面，全新体验。\![open,file,C:\Users\lcl\AppData\Local\GeoGebra_Calculator\app-6.0.846\GeoGebraCalculator.exe]\e"
+	menuflag=0
+}
+Choice.openmat{
+	"\0\s[1]为您打开Matlab，看来是个大工程呢，还请耐心等待软件启动哦~\![open,file,G:\MAT\kkk\bin\matlab.exe]\e"
+	menuflag=0
+}
+
+//打开扫雷
+Choice.minesweeper{
+	if minesweepertimes==0{
+		"\0这是%(callname)第一次打开扫雷，helper需要ssp的安装路径用于解压文件。	\![open,inputbox,mslocation]\e"
+	}
+	"\0\s[2]\![open,file,ghost\master\ink\MinesweeperWin7\Minesweeper.exe]来一局热血沸腾的扫雷吧！\e"
+	menuflag=0
+}
+Input.mslocation{
+	if reference1!=""{
+		msaddress1=reference1+"\ghost\helper\ghost\master\ink\MinesweeperWin7.zip"
+		msaddress2=reference1+"\ghost\helper\ghost\master\ink"
+		"\0收到地址，正在解压缩。\![execute,extractarchive,%(msaddress1),%(msaddress2)]\e"
+		minesweepertimes++
+		Choice.minesweeper()
+	}elseif reference1==""{
+		"\0\s[4]没有收到地址呢。\e"
+	}
+
+}
+
+//打开控制面板
+Choice.controlcenter{
+	"\0\s[0]\![open,file,ghost\master\ink\Control Panel.lnk]打开控制面板。\n\s[4]要做些什么呢？\e"
+	menuflag=0
+}
+
+//打开卸载
+Choice.uninstallapps{
+	"\0\s[1]\![open,file,ghost\master\ink\程序和功能.lnk]卸载程序后可能会有更多存储空间哦~\e"
+	menuflag=0
+}
+
+//打开任务管理器
+Choice.opentaskmgr{
+	"\0\s[4]\![open,file,Taskmgr.exe]打开任务管理器，关闭一些不必要的后台进程电脑或许会运行得更流畅？\e"
+	menuflag=0
+
+}
+//打开磁盘清理
+Choice.opendiskclup{
+	"\0\s[0]\![open,file,ghost\master\ink\Disk Cleanup.lnk]打开磁盘清理，又到了这个时间了吗？"
+	menuflag=0
+
+}
+//打开碎片优化与整理
+Choice.opendfrgui{
+	"\0\s[0]\![open,file,ghost\master\ink\dfrgui.lnk]打开碎片优化与整理，每月记得来整理一下哦。"
+	menuflag=0
+
+}
+//打开windows media player
+Choice.wmplayer{
+	"\0\s[1]\![open,file,wmplayer.exe]打开Windows Media Player，经典媒体播放器，比电影和电视更好用呢。\e"
+	menuflag=0
+}
+
+//打开崩坏3扫码器
+Choice.scaner{
+	"\0\s[1]\![open,file,G:\Honkai Impact\scan\scaner.exe]崩坏三好耶ヽ(✿ﾟ▽ﾟ)ノ\e"
+	menuflag=0
+}
+
+
+//清空回收站
+Choice.erbin{
+	　"\![raiseplugin,8F8BCFB8-B27A-456f-9BA0-551484856DDC,OnSwissArmyKnifeExecute,empty_recycle_bin]"
+	　menuflag=0
+
+}
+
+OnSwissArmyKnifeExecute{
+	if reference0=="empty_recycle_bin"{
+		"\0\s[2]哼哼！向回收站使用瑞士军刀！\e"
+	}
+	
+}
+//打开网易云音乐
+Choice.wywmusic{
+	"\0\s[1]\![open,file,E:\CloudMusic\CloudMusic\cloudmusic.exe]打开网易云音乐。\e"
+	　menuflag=0
+}
+
+//打开高漫
+Choice.opengoman{
+	"\0\s[1]\![open,file,C:\Users\lcl\AppData\Roaming\GaomonTablet\GaomonTablet.exe]打开高漫数位板插件。\e"
+}
+//打开ghost terminal
+Choice.opengoterminal{
+	"\0\s[1]\![open,file,ghost\master\ink\ghost_terminal.exe]打开ghost terminal。\e"
+}
+

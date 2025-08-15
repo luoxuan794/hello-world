@@ -1,0 +1,124 @@
+读入标题内容{
+	FCHARSET(UTF-8);
+	_b=FOPEN('saori/01.ics',"r");
+	_a=FREAD('saori/01.ics');
+	//读入内容
+	icscontent=(IARRAY,_a[0,":"]);
+	for _a=FREAD('saori/01.ics'); _a !=-1; _a=FREAD('saori/01.ics') {
+		if ":" _in_ _a{
+		//仅提取”:“前的部分
+			icscontent=(icscontent,_a[0,":"]);
+		}
+	}
+	FCLOSE('saori/01.ics')
+	//去除重复的项
+	icsdeftitle=ARRAYDEDUP(icscontent)
+	_t=IARRAY
+	//输出项
+	foreach icsdeftitle;_aka{
+		_t+=_aka+"\n"
+	}
+	_t
+}
+//标题解析
+icsproperty{
+	("BEGIN:VCALENDAR","END:VCALENDAR","BEGIN:VTIMEZONE","END:VTIMEZONE","BEGIN:STANDARD","END:STANDARD","BEGIN:DAYLIGHT","END:DAYLIGHT","BEGIN:VEVENT","END:VEVENT","METHOD","PRODID","VERSION","X-WR-CALNAME","TZID","DTSTART","TZOFFSETFROM","TZOFFSETTO","DESCRIPTION","RRULE","UID","SUMMARY","DTSTART;VALUE=DATE","DTEND;VALUE=DATE","DTSTART;TZID=China Standard Time","DTEND;TZID=China Standard Time","CLASS","PRIORITY","DTSTAMP","TRANSP","STATUS","SEQUENCE","LOCATION","X-MICROSOFT-CDO-APPT-SEQUENCE","X-MICROSOFT-CDO-BUSYSTATUS","X-MICROSOFT-CDO-INTENDEDSTATUS","X-MICROSOFT-CDO-ALLDAYEVENT","X-MICROSOFT-CDO-IMPORTANCE","X-MICROSOFT-CDO-INSTTYPE","X-MICROSOFT-DONOTFORWARDMEETING","X-MICROSOFT-DISALLOW-COUNTER","X-MICROSOFT-REQUESTEDATTENDANCEMODE","X-MICROSOFT-ISRESPONSEREQUESTED")
+	
+}
+
+/*
+	"BEGIN:VCALENDAR|日历文件开始",
+	"END:VCALENDAR|日历文件结束",
+	"BEGIN:VTIMEZONE|时区设定开始",
+	"END:VTIMEZONE|时区设定结束",
+	"BEGIN:STANDARD|时间标准参照设置开始",
+	"END:STANDARD|时间标准参照设置结束",
+	"BEGIN:DAYLIGHT|同上",
+	"END:DAYLIGHT|同上",
+	"BEGIN:VEVENT|事件开始",
+	"END:VEVENT|事件结束",
+	"METHOD|方式",
+	"PRODID|提供方",
+	"VERSION|版本",
+	"X-WR-CALNAME|该日历的名字",
+	"TZID|计时方法",
+	"DTSTART|时间戳",
+	"TZOFFSETFROM|用于时区偏移",
+	"TZOFFSETTO|用于时区偏移",
+	"DESCRIPTION|指定约会的纯文本正文。",
+	"RRULE",指定重复模式 经常性约会。
+	"UID|日历的唯一标识符",
+	"SUMMARY|指定约会的主题。",
+	"DTSTART;VALUE=DATE|全天事件开始时间",
+	"DTEND;VALUE=DATE|全天事件结束时间",
+	"DTSTART;TZID=China Standard Time|带时刻的事件开始时间",
+	"DTEND;TZID=China Standard Time|带时刻的事件结束时间",
+	"CLASS|事件公开等级",
+	"PRIORITY|事件优先级",
+	"DTSTAMP|事件的创建时间",
+	"TRANSP|可用性查找是否可用开关",
+	"STATUS",
+	"SEQUENCE|指定会议请求的修订序列号",
+	"LOCATION|时间发生的地点",
+	"X-MICROSOFT-CDO-APPT-SEQUENCE|指定会议请求的序列号",
+	"X-MICROSOFT-CDO-BUSYSTATUS|忙碌状态",
+	"X-MICROSOFT-CDO-INTENDEDSTATUS|指定会议组织者的忙碌状态",
+	"X-MICROSOFT-CDO-ALLDAYEVENT|全天时间标志",
+	"X-MICROSOFT-CDO-IMPORTANCE|指定约会的重要性",
+	"X-MICROSOFT-CDO-INSTTYPE|指示 VEVENT 是表示非定期约会、定期约会还是定期约会的例外。",
+	"X-MICROSOFT-DONOTFORWARDMEETING|不转发会议",
+	"X-MICROSOFT-DISALLOW-COUNTER|指定组织者是否 愿意接受反建议",
+	"X-MICROSOFT-REQUESTEDATTENDANCEMODE|请求考勤模式",
+	"X-MICROSOFT-ISRESPONSEREQUESTED|是否请求响应"
+*/
+
+读取日历内容{
+	FCHARSET(UTF-8);
+	icscalendar=IARRAY
+	_b=FOPEN('datafortest/testcalendar.txt',"r");
+	_a=FREAD('datafortest/testcalendar.txt');
+	//判断读到了日历开头
+	if "BEGIN:VCALENDAR" _in_ _a{
+		//重复读取事件载入日历组中
+		for _a=FREAD('datafortest/testcalendar.txt'); _a !=-1 ; _a=FREAD('datafortest/testcalendar.txt') {
+			//判断是否读到了事件开头
+			while ("BEGIN:VEVENT" !_in_ _a)&& (_a !=-1) {_a=FREAD('datafortest/testcalendar.txt');}
+			//开始记录事件的内容
+			for _a=FREAD('datafortest/testcalendar.txt'); ("END:VEVENT" !_in_ _a) && (_a !=-1) ; _a=FREAD('datafortest/testcalendar.txt') {
+				//判断该行是不是上一行的接续
+				if ":" _in_ _a{
+				//不是接续,继续识别其中的事件信息
+					if "SUMMARY" _in_ _a{
+						icssummary=_a[1,':']
+					}elseif "DTSTART" _in_ _a{
+						icssstarttime=_a[1,':']
+					}elseif "DTEND" _in_ _a{
+						icsendtime=_a[1,':']
+					}elseif "ALLDAYEVENT" _in_ _a{
+						icsallday=_a[1,':']
+					}
+				}else{
+					//是接续
+					
+				}
+			}
+			//组装数组成2维icscalendar（icsvevent（icssummary。。。。））
+			icsvevent=icssummary+","+icssstarttime+","+icsendtime+","+icsallday;
+			icscalendar=(icscalendar,icsvevent)
+			
+		}
+	}
+	
+	FCLOSE('datafortest/testcalendar.txt')
+	_t=IARRAY
+	//输出项
+	foreach icscalendar;_aka{
+		_t+=_aka+"\n"
+	}
+	_t
+
+}
+
+
+
+
